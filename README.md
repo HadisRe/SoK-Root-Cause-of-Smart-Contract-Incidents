@@ -63,7 +63,7 @@ This repository accompanies our paper and includes the three main appendix secti
 | 50 | [0xa6f6](https://etherscan.io/tx/0xa6f63fcb6bec8818864d96a5b1bb19e8bd85ee37b2cc916412e720988440b2aa) | [0xb559](https://etherscan.io/address/0xb5599f568D3f3e6113B286d010d2BCa40A7745AA) | [0x5061](https://etherscan.io/address/0x5061F7e6dfc1a867D945d0ec39Ea2A33f772380A) |
 
 
-
+---
 
 # Summary of 50 Real-World Smart Contract Incidents 
 
