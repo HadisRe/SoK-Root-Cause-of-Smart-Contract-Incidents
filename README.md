@@ -4,7 +4,7 @@ This repository accompanies our paper and includes the three main appendix secti
 
 
 ---
-## List of Appendix Toy and **Real-World** Examples for Vulnerability Types Presented in the Paper
+## 1. List of Appendix Toy and **Real-World** Examples for Vulnerability Types Presented in the Paper
 
 
 | Vulnerability | Vulnerability | Vulnerability |
@@ -19,7 +19,7 @@ This repository accompanies our paper and includes the three main appendix secti
 | [Unbounded Loop In Dynamic Arrays](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/unbounded-loop-in-dynamic-arrays.md) | [Unchecked Call](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/unchecked-call.md) | [Untrustworthy Data Feeds](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/untrustworthy-data-feeds.md) |
 ---
 
-## Attributes of Reviewed Incidents
+## 2. Attributes of Reviewed Incidents
 
 
 **On-chain analysis of blockchain attacks: Detailed mapping of exploit transaction hashes, compromised victim contracts, and attacker addresses (smart contracts and EOAs) for comprehensive incident investigation**
@@ -82,7 +82,7 @@ This repository accompanies our paper and includes the three main appendix secti
 
 ---
 
-## Summary of 50 Real-World Smart Contract Incidents 
+## 3. Summary of 50 Real-World Smart Contract Incidents 
 
 This appendix provides a detailed examination of attack mechanisms employed in 50 significant smart contract vulnerability incidents. Attacks are categorized by vulnerability type to highlight common patterns within each category. For each attack, the ID corresponds to Table 1 in the main text.
 
