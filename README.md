@@ -65,13 +65,12 @@ This repository accompanies our paper and includes the three main appendix secti
 
 ---
 
-# Summary of 50 Real-World Smart Contract Incidents 
+## Summary of 50 Real-World Smart Contract Incidents 
 
 This appendix provides a detailed examination of attack mechanisms employed in 50 significant smart contract vulnerability incidents. Attacks are categorized by vulnerability type to highlight common patterns within each category. For each attack, the ID corresponds to Table 1 in the main text.
 
 ---
-
-## Access Control Vulnerabilities
+**🚨 Access Control Incidents 🚨**  
 
 Access control vulnerabilities occur when permission mechanisms are improperly implemented or entirely absent. These vulnerabilities allow attackers to perform operations they should not be permitted to execute.
 
@@ -164,8 +163,7 @@ The attacker then withdrew the artificially inflated balance, repaid the flash l
 The vulnerability stemmed from the contract updating user deposits after calculating balance differences without protecting against reentrancy [37]. This allowed the attacker to manipulate their account balance through recursive calls during token transfers [36].
 
 ---
-
-## Price Manipulation Vulnerabilities
+**🚨 Price Manipulation Incidents 🚨**
 
 Price manipulation vulnerabilities occur when protocols rely on manipulable price feeds or fail to implement adequate safeguards against artificial price movements.
 
@@ -206,8 +204,7 @@ The Zunami Protocol exploit targeted a critical price manipulation vulnerability
 The Jimbo's Protocol attack exploited a critical vulnerability in slippage control within the JimboController contract's shift() function [62]. The attacker leveraged this weakness to manipulate token prices and drain liquidity from the protocol [63]. First, the attacker obtained a flash loan of 10,000 ETH from an external protocol [63]. Using these borrowed funds, the attacker purchased large amounts of JIMBO tokens through the protocol's ETH-JIMBO trading pair, artificially inflating JIMBO's price [63]. The attacker then deposited 100 JIMBO tokens into the JimboController contract and called the vulnerable shift() function [63]. This function, which lacked proper access controls, allowed anyone to execute arbitrary liquidity operations [63]. The shift() function triggered a rebalancing operation that moved the contract's WETH liquidity back into the pool [62]. Due to the manipulated price imbalance between WETH and JIMBO tokens, the attacker could extract more WETH than initially invested [63]. Finally, the attacker sold their remaining JIMBO tokens to drain additional WETH from the pool, repaid the flash loan, and secured approximately 4,090 ETH in profit [63]. The fundamental vulnerability was the lack of slippage protection in the shift() function, which allowed price manipulation attacks [62]. Additionally, insufficient access controls permitted any user to trigger critical rebalancing operations [63].
 
 ---
-
-## Rounding Errors
+**🚨 Rounding Errors Incidents 🚨**
 
 Rounding errors and precision loss vulnerabilities occur when mathematical operations in smart contracts produce unexpected results due to integer division, improper scaling, or inadequate handling of decimal values.
 
@@ -232,8 +229,7 @@ This vulnerability is a combination of business logic flaws and precision loss. 
 The Raft Protocol exploit represents a precision-based vulnerability in token share calculations [71]. The attack targeted the InterestRatePositionManager contract's storedIndex variable manipulation [72]. The vulnerability originated in the protocol's implementation of a rebasing token mechanism [71]. In the rcbETH contract, the `balanceOf` function calculated token balances by multiplying native balances with a variable called `storedIndex` to determine final balances [71]. The attacker initiated the exploit by obtaining 6,000 cbETH through a flash loan [71]. After transferring 6,001 cbETH to the vulnerable contract, they triggered the `liquidate` function on a pre-created position [71]. This function call manipulated the `storedIndex` variable through a logic vulnerability, artificially inflating it to thousands of times its intended value [71]. Exploiting a rounding precision flaw in the `divUp` function of the cbETH contract's minting process, the attacker executed the `managePosition` function 60 times [71]. Each call used only 1 wei of cbETH to mint 1 wei of rcbETH-c [71]. Due to the inflated `storedIndex`, these minimal rcbETH-c tokens represented significantly higher value within the system [71]. With the artificially inflated rcbETH-c balance, the attacker leveraged the `managePosition` function again to borrow 6.7 million R tokens [72]. These tokens were swapped for various stablecoins and ultimately converted to ETH [71]. Ironically, the attack failed in its final stage. When attempting to extract profits using `delegatecall`, the attacker inadvertently sent 1,570 ETH to the zero address due to storage slot initialization issues [72]. This error resulted in the attacker gaining only 7 ETH after repaying the flash loan [71].
 
 ---
-
-## Input Validation Failures
+**🚨 Input Validation Failure Incidents 🚨**
 
 Input validation failures occur when smart contracts accept and process untrusted inputs without adequate verification, leading to unexpected behaviors or security breaches.
 
@@ -262,8 +258,7 @@ The Team Finance attack exploited a critical business logic vulnerability in the
 The Seneca Protocol exploit targeted a critical vulnerability in the `Chamber contract's` external call handling mechanism [84]. The root cause was improper validation of parameters in the `performOperations()` function. This vulnerability allowed arbitrary external calls with crafted input data [85]. By setting the `actions[0]` parameter to 30, the attacker triggered the internal `call` function. This action enabled execution of malicious external calls [84]. The attacker constructed calldata designed to invoke the `transferFrom()` function on approved token contracts. These malicious calls redirected tokens from users' wallets directly to the attacker's address. Users had previously approved the Chamber contract to manage their tokens. As a result, the malicious transactions appeared legitimate to the token contracts. The exploit circumvented intended access controls effectively. The contract failed to verify the legitimacy of external call destinations and parameters [85]. The protocol lacked emergency mitigation capabilities due to improperly implemented pause functionality. The `pause()` and `unpause()` functions were declared as internal-only. This implementation prevented administrators from halting operations during the attack [85].
 
 ---
-
-## Business Logic Flaws
+**🚨 Business Logic Flaws Incidents 🚨**
 
 Business logic flaws occur when the implemented contract logic does not correctly model the intended business rules or contains inconsistencies in how operations should be sequenced.
 
@@ -285,8 +280,8 @@ Specifically, the system removed the user's debt record but failed to invalidate
 This desynchronization created what security researchers term phantom collateral assets that should no longer be accessible. These assets remained available in the contract's state despite their logical invalidation. In the final exploitation stage, the attacker leveraged this state inconsistency by borrowing against the supposedly liquidated position [91].
 
 ---
+**🚨 Dangerous Delegatecall Incidents 🚨**
 
-## Dangerous Delegatecall
 
 Dangerous delegatecall vulnerabilities occur when contracts use the delegatecall operation without proper validation of the target or execution context, allowing attackers to execute arbitrary code with the caller's privileges.
 
@@ -298,7 +293,7 @@ The OKX DEX attack exploited a Private Key Compromise vulnerability in the proto
 
 ---
 
-## Storage Collisions
+**🚨 Storage Collisions Incidents 🚨**
 
 Storage collisions occur when different variables in a smart contract inadvertently share the same storage slot, allowing changes to one variable to affect the other.
 
@@ -318,8 +313,8 @@ In the 1inch attack, the vulnerability stemmed from an issue in the deprecated `
 The Velocore exploit targeted a vulnerability in the `ConstantProductPool` contract's fee calculation logic [100]. The root cause was an unchecked arithmetic operation in the Balancer-style CPMM pool contract. The attack focused on two key vulnerabilities in the smart contract implementation. First, the `feeMultiplier` variable could be manipulated through direct invocation of the `velocore__execute()` function [101]. This function lacked proper caller verification, allowing the attacker to simulate large withdrawals [100]. These simulated withdrawals increased the `feeMultiplier` variable to an abnormally high value. Second, an arithmetic underflow occurred in the single-token withdrawal logic [100]. The effective fee calculation `effectiveFee1e9 = (effectiveFee1e9 * feeMultiplier) / 1e9` could exceed 100%, causing the expression `1e18 - ((1e18 - k) * effectiveFee1e9)` to underflow [100]. This transformed what should have been a liquidity withdrawal into a massive liquidity deposit. The attacker executed the exploit in three phases: manipulating the `feeMultiplier`, contracting the pool with a flash loan, and exploiting the underflow with a small single-token withdrawal [100].
 
 ---
+**🚨 Governance Incidents 🚨**
 
-## Governance Vulnerabilities
 
 Governance vulnerabilities occur when decentralized governance mechanisms are manipulated due to inadequate validation, low participation, or improper implementation.
 
