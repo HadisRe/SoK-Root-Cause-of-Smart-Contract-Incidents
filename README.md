@@ -1,3 +1,8 @@
+# SoK: Root-Cause Classification of Smart Contract Vulnerabilities via Analysis of $1 Billion in Smart Contract Real-World Attacks
+
+This repository accompanies our paper and includes the three main appendix sections for our paper. 
+
+## Attributes of Reviewed Incidents
 
 
 **On-chain analysis of blockchain attacks: Detailed mapping of exploit transaction hashes, compromised victim contracts, and attacker addresses (smart contracts and EOAs) for comprehensive incident investigation**
@@ -56,3 +61,380 @@
 | 48 | [0x44a0](https://arbiscan.io/tx/0x44a0f5650a038ab522087c02f734b80e6c748afb207995e757ed67ca037a5eda) | [0x2719](https://arbiscan.io/address/0x271944d9D8CA831F7c0dBCb20C4ee482376d6DE7) | [0x102b](https://arbiscan.io/address/0x102be4bccc2696c35fd5f5bfe54c1dfba416a741) |
 | 49 | [0x36fe](https://arbiscan.io/tx/0x36fef881f7e9560db466a343e541072a31a07391bcd0b9bcdb6cfe8ae4616fc0) | [0x9980](https://arbiscan.io/address/0x99801433f5d7c1360ea978ea18666f7be9b3abf7#code) | [0xf274](https://arbiscan.io/address/0xf2744e1fe488748e6a550677670265f664d96627) |
 | 50 | [0xa6f6](https://etherscan.io/tx/0xa6f63fcb6bec8818864d96a5b1bb19e8bd85ee37b2cc916412e720988440b2aa) | [0xb559](https://etherscan.io/address/0xb5599f568D3f3e6113B286d010d2BCa40A7745AA) | [0x5061](https://etherscan.io/address/0x5061F7e6dfc1a867D945d0ec39Ea2A33f772380A) |
+
+
+
+
+# Summary of 50 Real-World Smart Contract Incidents 
+
+This appendix provides a detailed examination of attack mechanisms employed in 50 significant smart contract vulnerability incidents. Attacks are categorized by vulnerability type to highlight common patterns within each category. For each attack, the ID corresponds to Table 1 in the main text.
+
+---
+
+## Access Control Vulnerabilities
+
+Access control vulnerabilities occur when permission mechanisms are improperly implemented or entirely absent. These vulnerabilities allow attackers to perform operations they should not be permitted to execute.
+
+### [1] Euler Finance
+The attack on Euler Finance occurred because the `donateToReserves` function lacked proper access control [1]. This function did not check the account's `healthFactor` before execution. As a result, the attacker could donate to reserves even when their position was undercollateralized. This failure bypassed standard solvency rules and violated the principle of least privilege.
+
+The attacker also abused a business logic flaw in the `softLiquidation` mechanism. The protocol offered higher liquidation discounts to accounts with lower `healthFactor`. The attacker reduced their own `healthFactor` by repeatedly calling `selfBorrow` [2]. This manipulation triggered liquidations with discounts exceeding 90%. The design incentivized this behavior, which showed a serious misalignment between intended logic and real-world outcomes.
+
+Flash loans made the attack practical. The attacker borrowed 30 million DAI using `Aave.flashLoan`. They then executed the sequence `mint`, `donate`, and `liquidate` in a single transaction [1, 3, 2]. Flash loans allowed this sequence to happen without interruption. This atomic execution gave the attacker full control over the system's state within one block and made the exploit hard to stop.
+
+### [2] Nomad Bridge
+The exploit mechanism of the Nomad Bridge attack originated from a critical vulnerability in the `Replica` smart contract. In a contract upgrade, the `trusted root` parameter, responsible for validating cross-chain messages, was mistakenly initialized to the zero address (`0x00`) [4]. This misconfiguration led to a failure in the access control system, as the contract began to treat all messages as valid by default, regardless of their legitimacy. Consequently, the `process()` function, which handles cross-chain messages, could be invoked without verifying the authenticity of the messages, specifically the Merkle root. This breakdown in access control allowed attackers to submit arbitrary messages and withdraw funds without needing valid proofs or signatures [5]. Since the attack was permissionless, anyone could copy a previous attack transaction from Etherscan, modify the recipient address, and drain funds from the bridge.
+
+### [6] Infini
+The **Infini** exploit highlights a straightforward **Access Control** vulnerability, where the attack method was remarkably simple. A former developer, responsible for the contract `Infini Vault`, deliberately retained **administrative privileges** even after completing their tasks [6]. The core security failure occurred when the project administrators failed to revoke these privileged access rights or transfer ownership properly. After waiting nearly 100 days, the attacker executed the exploit by using the still-active admin credentials to gain access to the Morpho MEVCapital's USDC vault. This led to two unauthorized withdrawals of 11.4 million and 38 million USDC, respectively [7]. No sophisticated technical exploit was necessary the attacker merely used legitimate administrative functions they should have lost access to long ago.
+
+### [11] Holograph
+The `Holograph` exploit highlights a classic **Access Control** vulnerability, specifically a failure in privileged function access control. In this case, a former developer retained permission to access the contract's mint function even after their involvement with the project ended [8, 9].
+
+The attacker deployed a malicious smart contract on the Mantle network. This contract used an address that still had privileged access to bypass standard authorization checks. By exploiting this leftover permission, the attacker called the mint function across nine transactions, creating a total of 1 billion HLG tokens.
+
+These tokens were then bridged to the Ethereum network and sold on exchanges. Although some exchanges froze about 200 million tokens, the attacker successfully dumped a significant portion. The token price dropped by 80% within the first nine hours [8].
+
+#[12] Deus DAO
+The DEI exploit targeted an access control vulnerability in the token's `burnFrom()` function [10]. The root cause was an implementation error in the allowance mechanism where parameters were reversed: `_allowances[_msgSender()][account]` instead of the correct `_allowances[account][_msgSender()]` [10]. This misconfiguration created a critical security flaw in the permission validation logic. By calling `burnFrom()` with a zero amount parameter, attackers could manipulate the contract into incorrectly granting spending approval to themselves [11]. The exploit enabled unauthorized access to victim token holdings without proper consent.
+
+#[14] Ronin Bridge
+The Ronin Bridge exploit resulted from an incomplete contract upgrade process [12]. When upgrading from version 2 to 4, developers called `initializeV4()` but neglected to call `initializeV3()` [13]. This oversight left `_totalOperatorWeight` uninitialized at zero. Consequently, the `minimumVoteWeight` security check was effectively disabled, as any signature weight would satisfy a comparison against zero. An MEV bot exploited this access control vulnerability to withdraw 4,000 ETH and 2 million USDC, reaching the bridge's maximum transaction withdrawal limit of $12 million.
+
+#[15] LI.FI
+The LI.FI exploit occurred due to insufficient access control in a newly deployed contract facet [14]. The vulnerability stemmed from the `depositToGasZipERC20` function in `GasZipFacet.sol`, which directly passed user-controlled data to `LibSwap.swap` without proper validation [15]. Unlike other facets of the LI.FI contract that implemented strict whitelisting of allowed contract calls, this new facet lacked these security checks due to a human error during deployment. The attacker exploited this vulnerability by crafting malicious `calldata` containing `transferFrom()` function calls [16]. This technique allowed them to drain tokens from wallets that had granted unlimited approvals to the LI.FI contract.
+
+### [23] Shezmu
+The Shezmu exploit stemmed from a critical access control vulnerability in the protocol's collateral token contract [17]. The attack exploited three interconnected flaws in the platform's design. First, the collateral token contract implemented an unrestricted `mint()` function that lacked proper access controls. This allowed the attacker to mint arbitrary amounts of collateral tokens without authorization [18].
+
+Second, the Shezmu vault contract contained an `addCollateral()` function that failed to validate the origin of deposited tokens. The function accepted self-minted tokens without verification, enabling the attacker to artificially increase their collateral position within the protocol [17]. This design flaw effectively bypassed the fundamental principle that collateral should represent genuine external value.
+
+Third, the vault's `_borrow()` function permitted users to borrow the protocol's stablecoin (ShezUSD) against their collateral shares without additional validation. Since the vault contract possessed the necessary role permissions to mint ShezUSD, the attacker could leverage their artificially inflated collateral position to borrow substantial amounts of newly minted ShezUSD [17].
+
+### [31] Dexible
+The Dexible exploit demonstrated a critical vulnerability in smart contract parameter validation. The vulnerability existed in Dexible's newly implemented v2 contracts, specifically in the `selfSwap` function [19]. This function allowed users to define custom routing information for token swaps. However, the implementation contained a fundamental security flaw: the router address parameter lacked on-chain verification [20]. The exploit mechanism functioned as follows: When users invoked the `selfSwap()` method, they provided parameters including tokenID and router information as call data [19]. This data was subsequently passed to the `fill()` method, which critically failed to validate the routerID parameter [19]. The attacker exploited this missing validation by submitting their own contract address as the routerID parameter [20]. Instead of routing through a legitimate DEX contract, the `fill()` function performed a delegate call to the attacker-controlled address [19]. This manipulation enabled the attacker to craft malicious call data that triggered `transferFrom` calls on token contracts [20]. The attack targeted user accounts that had previously granted approval to Dexible's contract, allowing the attacker to transfer tokens directly to their wallet [19].
+
+### [40] Curio
+The Curio exploit targeted a vulnerability in the protocol's DAO voting system [21]. The attack leveraged an access control flaw in MakerDAO-based smart contracts on Ethereum. The exploit occurred through a series of coordinated steps exploiting governance privileges. First, the attacker acquired a small number of CGT tokens, granting themselves elevated voting privileges within the smart contract [22]. This privilege escalation occurred due to insufficient validation in the voting power mechanism. With enhanced voting power, the attacker could manipulate governance decisions. Second, the attacker executed the smart contract's `plot` function, which defined a malicious smart contract as the project's `exec library` [22]. The attack was initiated through the `cook` function of an attack contract, leveraging the `IDSChief` and `IDSPause` contracts to execute a governance manipulation scheme [21]. Third, the vulnerable contract permitted `delegatecall` operations to this malicious library [22]. A `delegatecall` allows execution of external code with the identity and storage context of the calling contract. This enabled the attacker to execute arbitrary code with Curio's contract privileges.
+
+### [49] Swaprum
+The Swaprum incident exploited a critical access control vulnerability at the administrative level [23]. The team abused their unrestricted upgrade privileges to implement a malicious `add()` function [24]. This access control flaw manifested through excessive admin rights that allowed arbitrary contract modifications [24]. The `add()` function served as a backdoor, enabling the team to bypass normal access restrictions and transfer users' LP tokens directly to their deployer address [24]. The vulnerability represented a failure in privilege management, where the contract owner possessed unchecked authority over user funds [23]. CertiK's audit had identified centralization risks but failed to classify them as critical access control vulnerabilities [24].
+
+---
+
+## Reentrancy Vulnerabilities
+
+Reentrancy vulnerabilities occur when contracts update state variables after external calls, allowing attackers to recursively reenter the vulnerable function before state changes are reflected.
+
+### [5] Fei Rari
+The exploit leveraged a Reentrancy vulnerability. Initially [25], a flash loan of 150 million USDC and 50,000 WETH was taken, and the USDC was deposited as collateral into the vulnerable `fUSDC-127` contract. With this collateral, 1,977 ETH was borrowed. However, the `borrow()` function had a critical flaw: it transferred ETH before updating the borrow records. This allowed for a reentrant call to `exitMarket()` via the `fallback()` function, enabling the withdrawal of all the collateral before the loan records were updated. This sequence was repeated with multiple tokens. In the final step, the flash loan was repaid, and the remaining funds were routed to the attacker's address, with some funds sent through Tornado Cash [26].
+
+### [8] Penpie
+The `Penpie` exploit leveraged a **Reentrancy** vulnerability in the `harvestBatchMarketRewards()` function. The attacker deployed a malicious SY (Synthetic Yield) contract and registered it as a valid Pendle market on Penpie through the platform's permissionless registration system [27, 28].
+
+The exploit mechanism functioned as follows: When the `harvestBatchMarketRewards()` function called `redeemRewards()`, the malicious SY contract reentered the protocol's `depositMarket()` function. This reentrancy allowed the attacker to deposit additional tokens from a flash loan during reward calculation. Since rewards were computed based on the difference between token balances before and after calling `redeemRewards()` ($amountAfter - amountsBefore[j]$), the injected tokens artificially inflated the `amountAfter` value. This manipulation enabled the attacker to extract significantly more rewards [27].
+
+### [25] Conic Finance
+The Conic Finance exploit manifested as a dual attack leveraging different vulnerabilities in Ethereum smart contracts [29]. The primary attack exploited the notorious read-only reentrancy vulnerability in the `CurveLPOracleV2` contract. This vulnerability allowed the attacker to reenter specific token functions, notably `rETH-f.totalSupply()`, during price calculations. The reentrancy protection mechanism failed due to an address confusion between ETH and WETH in Curve V2 pools. The exploiter manipulated token prices through this reentrancy vulnerability. This manipulation created artificial price discrepancies between actual asset values and oracle-reported values. Consequently, the attacker could withdraw significantly more assets than initially deposited. [29]. A second, distinct attack targeted Conic's crvUSD omnipool through a different mechanism. This attack exploited insufficient bounds checking in pool balancing mechanisms. The attacker performed a systematic approach that involved sequential token exchanges and deposit-withdrawal cycles. First, they exchanged crvUSD to USDC in the Curve pool. Then they deposited crvUSD into Conic. Subsequently, they exchanged USDC back to crvUSD in the Curve pool. Finally, they withdrew funds from Conic. This cycle was repeated multiple times. The second attack leveraged imbalanced pools to create favorable exchange rates. Despite implemented safeguards against imbalanced pool interactions, the configured protection thresholds proved inadequate. The bounds were not sufficiently restrictive to prevent gradual drainage [29].
+
+### [33] CloberDEX
+The CloberDEX exploit exemplifies a classic reentrancy vulnerability in DeFi protocols [30]. The attack specifically targeted the Liquidity Vault component deployed on the Base network [31]. The vulnerability resided in the `_burn` function of the Rebalancer contract, which violated the checks-effects-interactions pattern [30]. This critical security principle mandates that state changes should occur before external calls to prevent reentrancy attacks. The flawed implementation executed external token transfers (`bookKeyA.quote.transfer` and `bookKeyA.base.transfer`) to users prior to updating critical state variables (`pool.reserveA` and `pool.reserveB`) [30]. This sequence created a window of vulnerability where the contract state remained unchanged during external interactions. The attacker exploited this vulnerability by creating a malicious token contract with a callback function that triggered during the token transfer [31]. This callback reentered the `_burn` function before state variables were updated, allowing multiple withdrawals based on the same, unmodified reserve values [30]. The exploit transaction demonstrated how the attacker leveraged a custom strategy and malicious token to orchestrate the attack [30]. By reentering the vulnerable function, the attacker could repeatedly extract funds while the contract still reflected pre-withdrawal state values.
+
+### [45] EraLend
+The EraLend exploit targeted a critical read-only reentrancy vulnerability in the protocol's liquidity pool implementation [32]. The root cause was improper callback handling when burning `SyncSwap LP tokens`. This vulnerable code pattern was directly recycled from SyncSwap, despite containing explicit warning comments about potential security risks [32].
+
+The attack exploited a specific sequencing flaw. When burning `LP tokens`, the protocol allowed callback execution before `reserves` were updated [33]. This callback opportunity created a timing gap where old reserve values remained accessible. The attacker leveraged this window to manipulate the oracle's price calculation mechanism [32].
+
+By repeatedly entering and exiting contract functions in a precise sequence, the attacker forced the oracle to use stale `reserve data` [33]. This artificial price manipulation inflated asset values, allowing the attacker to borrow against overvalued collateral. The exploit specifically targeted `USDC` deposits on the platform [32].
+
+### [47] Sturdy Finance
+The Sturdy Finance attack exploited a read-only reentrancy vulnerability in the protocol's price oracle system [34]. The attacker manipulated the price of B-stETH-STABLE tokens through Balancer's vulnerable pools [35]. First, the attacker obtained flash loans of 50,000 wstETH and 60,000 WETH from Aave [35]. They then added liquidity to manipulate the B-stETH-STABLE pool price. During the reentrancy attack, the oracle read an inflated price while the pool was in an inconsistent state [34]. The attacker deposited the manipulated tokens as collateral in Sturdy Finance. With the artificially inflated collateral value, they borrowed additional assets [35]. When the transaction completed and prices normalized, the attacker had extracted value through undercollateralized loans. The vulnerability stemmed from the oracle reading pool prices during active transactions, before state changes were finalized [34]. This read-only reentrancy issue had been previously identified in other protocols like Midas Capital and dForce Network [34].
+
+### [50] Orion Protocol
+The Orion Protocol exploit leveraged a reentrancy vulnerability in the ExchangeWithAtomic contract's exchange function [36]. The core issue was that the function lacked proper reentrancy protection while calculating deposits based on token balance differences [36].
+
+First, the attacker deposited 0.5 USDC tokens into the ExchangeWithAtomic contract as preparation [36]. They then obtained a flash loan of 2,847,000 USDT and initiated a token swap through the vulnerable doSwapThroughOrionPool function [36].
+
+The attacker crafted a malicious token (ATK) and structured the swap path as "USDC -> ATK -> USDT" [36]. During the token transfer, the ATK contract's transfer function triggered a reentrant call to the depositAsset function [36].
+
+This reentrancy attack allowed the attacker to deposit 2,844,700 USDT while the contract was still processing the swap [36]. Since the contract calculated the output amount based on the balance difference, it recorded an inflated deposit of 5,689,000 USDT [36].
+
+The attacker then withdrew the artificially inflated balance, repaid the flash loan, and converted the excess 2.836 million USDT to WETH [36]. The same attack method was replicated on BSC, yielding additional profits [36].
+
+The vulnerability stemmed from the contract updating user deposits after calculating balance differences without protecting against reentrancy [37]. This allowed the attacker to manipulate their account balance through recursive calls during token transfers [36].
+
+---
+
+## Price Manipulation Vulnerabilities
+
+Price manipulation vulnerabilities occur when protocols rely on manipulable price feeds or fail to implement adequate safeguards against artificial price movements.
+
+### [3] BonqDAO
+The `BonqDAO` [38] exploit represents a classic **Oracle Manipulation** attack where the attacker exploited insufficient price validation in the protocol's oracle integration [39]. The `BonqDAO` smart contract lacked essential boundary checks when consuming price data from the `Tellor` oracle, allowing extreme price manipulations. The attacker staked 10 TRB tokens to gain oracle reporting privileges, then artificially inflated the WALBT token price to borrow excessive BEUR stablecoins against overvalued collateral. Subsequently, the attacker crashed the WALBT price, triggering widespread liquidations of other users' positions, which the attacker then collected. This two-phase attack succeeded because the `updateValue()` function contained no sanity checks for abnormal price movements [40].
+
+### [4] WooFi
+The exploit in the WOOFi [41] contract originated from a flaw in the `_calcBaseAmountSellQuote` function, where the token price was calculated directly using a linear formula based on the oracle price and input amount, without incorporating effective slippage control or safeguards against manipulation. The attacker initiated the exploit by taking a flash loan to borrow large amounts of `USDC` and `WOO` tokens. They then used part of the USDC to perform a series of swaps within the WOOFi contract, inflating the price of WOO tokens [42]. At the peak, they swapped a large quantity of WOO for USDC, triggering a dramatic price crash. This allowed them to repurchase WOO tokens at a drastically lower price, repay the flash loan, and extract profit. The vulnerability lay in the pricing formula, which failed to mitigate temporary manipulation within a single transaction, making it susceptible to flash loan-based price distortion.
+
+### [10] Inverse Finance
+The Inverse Finance exploit demonstrates a sophisticated `Oracle Manipulation` attack in the DeFi ecosystem. The attacker first withdrew 901 ETH from `Tornado Cash`, then injected 500 ETH into the INV/ETH pair on `SushiSwap`, artificially inflating the INV token price from around $400 to $1.79 million. The critical vulnerability lay in Inverse Finance's reliance on this low-liquidity trading pair for its price oracle, despite using a `TWAP` mechanism [43, 44]. By simultaneously spamming transactions, the attacker prevented arbitrage bots from normalizing the price. This strategy maintained the manipulated value across multiple blocks. The exploit allowed them to deposit just 1,700 INV tokens (worth approximately $644,000 at fair value) as collateral. With this minimal collateral, they borrowed $15.6 million in assets including `WBTC`, `YFI`, `DOLA`, and ETH, highlighting the dangers of using single-source oracles with low liquidity even when implementing time-weighted averaging [43, 45].
+
+### [19] Hundred Finance
+The Hundred Finance exploit leveraged an Exchange Rate Manipulation vulnerability in the protocol's smart contracts [46]. The attack targeted the relationship between `hWBTC` (receipt tokens) and `WBTC` (underlying asset). The primary vulnerability stemmed from unprotected exchange rate calculations in the `getAccountSnapshot` function, where `exchangeRateMantissa` was derived directly from contract balances without validation [47]. The attacker exploited this vulnerability through several precise steps. First, they obtained a flash loan of 500 `WBTC` from Aave. They then identified an unused `hWBTC` contract that existed parallel to the main contract used by the interface. This parallel contract became the attack vector. The attacker donated 500.3 `WBTC` to this contract, artificially inflating the exchange rate between `hWBTC` and `WBTC`. A secondary vulnerability compounded the issue: a rounding error in the `redeemUnderlying` function. This error became significant when processing transactions with manipulated exchange rates [46]. When the attacker subsequently redeemed a tiny amount of `hWBTC` tokens, the manipulated exchange rate allowed them to withdraw disproportionately large amounts of `WBTC`.
+
+### [21] Lodestar Finance
+The Lodestar Finance exploit demonstrates a sophisticated oracle price manipulation vulnerability affecting DeFi lending protocols [48]. The incident targeted the `GLPOracle` contract, which calculated the price of `plvGLP` tokens used as collateral in the protocol. The fundamental vulnerability stemmed from the oracle's inability to account for artificial inflation of asset values within a single transaction block. The attack mechanism involved manipulating the price oracle by exploiting the `donate()` function in the `GlpDepositor` contract [48]. By donating assets to the contract, the attacker could artificially inflate the total assets under management. Since the oracle calculated the `plvGLP` token price based on the ratio of total assets to total supply, this inflation significantly increased the reported collateral value. The oracle lacked safeguards against instantaneous price fluctuations within the same block, allowing the attacker to execute their strategy without triggering protective measures [49].
+
+### [24] Gamma Strategies
+The Gamma Strategies exploit exemplifies a sophisticated price manipulation attack within DeFi concentrated liquidity management [50]. The attack leveraged flash loans to manipulate asset prices beyond predetermined tick ranges in the protocol's vaults. The primary vulnerability came from two interconnected design flaws. First, the protocol set excessively high price change thresholds (50-200%) for certain liquidity pools. These problematic configurations particularly affected pools containing stablecoins and liquid staking tokens [50]. Second, the system calculated user share tokens based on real-time prices without oracle verification, creating an exploitable attack vector during price fluctuations [51]. The attack methodology followed a systematic pattern. Initially, the attacker borrowed substantial amounts of tokens through flash loans. The attacker then used these funds to dramatically inflate the price of one asset (e.g., gDAI) beyond the supported tick range. This manipulation allowed the deposit of minimal assets to receive disproportionately large quantities of share tokens. Since the price exceeded the supported range, the protocol incorrectly handled the deposit. The system stored the attacker's tokens while issuing shares based on manipulated prices [51]. Subsequently, the attacker withdrew all shares, extracting significant liquidity from the pool despite minimal initial contribution. By iteratively manipulating prices above and below the supported range through the `removeLiquidity` and `addLiquidity` functions, the attacker systematically drained pool reserves. This process was repeated through multiple transaction cycles to maximize extraction of funds [51].
+
+### [26] KiloEx
+The KiloEx exploit demonstrated a sophisticated oracle manipulation attack targeting smart contract access control vulnerabilities [52]. The attack exploited a critical design flaw in the contract permission hierarchy of the multichain protocol. At the core of the vulnerability lay KiloEx's `MinimalForwarder` contract, which lacked proper signature validation and input data verification [53]. The exploit leveraged a chain of interconnected contract calls. The attack vector targeted the `setPrices` function within the `KiloPriceFeed` contract. This function was ostensibly protected by a specific call sequence. The `Keeper` contract should only allow trusted calls to this function. The `PositionKeeper` contract should restrict access to the `Keeper`. Finally, the `MinimalForwarder` should validate all incoming requests [52]. However, the `MinimalForwarder`'s `execute` function failed to properly validate transaction origins. The contract accepted forged signatures without verification. It also processed arbitrary function call data without validation. This critical flaw undermined the entire security model of the protocol [53]. The attacker exploited this vulnerability through a precise three-step process. First, they artificially manipulated the price of tokens downward using the compromised `setPrices` function. Second, they opened leveraged long positions at these artificially depressed prices. Third, they manipulated prices upward and immediately closed their positions for significant profit [52].
+
+### [30] Onyx Protocol
+The Onyx Protocol hack exploited two vulnerabilities in the protocol's smart contracts [54]. The primary vulnerability stemmed from a well-known precision issue in Compound v2 forks that affects markets with low liquidity. The attack began with the exploiter obtaining a flash loan of 2,000 ETH from Balancer [55]. This provided the necessary capital to execute the attack without risking personal funds. The attacker then strategically split these funds, depositing 1,999.5 ETH into the oEther contract while allocating 0.5 ETH to their malicious contract [55]. The core exploitation leveraged a decimal precision vulnerability in Compound v2 forks [54]. This vulnerability affects the asset's exchange rate calculation when there is insufficient liquidity in a market. The recently added VUSD market failed to implement essential security measures specifically, the protocol did not follow best practices of minting and burning some tokens to prevent the market from becoming empty [54]. With this vulnerability exposed, the attacker executed a precise manipulation sequence. They repeatedly minted and redeemed extremely small amounts of oETH (as little as 0.00000001 oETH) [55]. This process was repeated 56 times, with each iteration further destabilizing the exchange rate calculations [55]. The cumulative effect of these operations caused significant distortion in the protocol's pricing mechanisms. Additionally, the exploiter identified and leveraged a second vulnerability in the protocol's NFTLiquidation contract [54]. This contract failed to properly validate untrusted user input, allowing the attacker to manipulate the self-liquidation reward amount [54]. By exploiting this validation flaw, the attacker could extract additional value during the liquidation process.
+
+### [37] Rho Market
+The Rho Market exploit occurred via oracle price manipulation on Scroll Layer 2 [56]. Initial compromise involved unauthorized ownership transfer through potential private key theft [57]. Attacker gained control of critical contract parameters. `Oracle price feeds` were subsequently manipulated, introducing deliberately inaccurate pricing data. This manipulation created exploitable arbitrage opportunities. A `MEV` bot detected and front-ran the attack, extracting approximately $7.5 million within minutes [56]. The bot drained `USDC` and `USDT` from lending pools by exploiting the differential between manipulated oracle prices and actual market values. Root cause analysis identified human error during deployment rather than code vulnerability [57].
+
+### [38] UwuLend
+The UwuLend exploit utilized oracle price manipulation against the lending protocol [58]. The attacker exploited a critical vulnerability in the protocol's oracle system. UwuLend's contract was a fork of AAVE V2 with modified oracle fallback logic [58]. The attack began with a flash loan acquisition. This provided the attacker with substantial token liquidity [59]. The `fallback oracle` calculated asset prices based on several Curve pool states. The attacker manipulated these pool states through large trades using the borrowed tokens [58]. This manipulation created a price discrepancy between borrowing and liquidation rates. Specifically, the attacker could borrow `sUSDe` at 0.99 but liquidate positions at an inflated 1.03 rate [58]. This 4% difference, when applied to large transaction volumes, enabled the substantial theft.
+
+### [44] Zunami Protocol
+The Zunami Protocol exploit targeted a critical price manipulation vulnerability in the protocol's stablecoin mechanism [60]. The root cause was an incorrect computation of LP prices within the `totalHoldings` function. This function contained a specific weakness in strategies like `MIMCurveStakeDao` [61]. The attacker orchestrated a multi-step attack beginning with flash loans of 7 million USD from UniswapV3 and 7 million USDC plus 10,011 WETH from Balancer [61]. These borrowed funds enabled the manipulation of multiple liquidity pools. The exploit specifically involved intentional inflation of SDT tokens and `sdtPrice` parameters within the vulnerable contract. By adding substantial liquidity to CurveFinance and performing strategic token swaps, the attacker donated approximately 55,598 SDT tokens into the `MIMCurveStakeDao` [61]. This donation was the critical manipulation point. The attacker then stored a manipulated price snapshot within UZD using the `cachessetPrice` function. This cached price manipulation directly impacted balance calculations as the `balance` function in the UZD contract relied on this incorrect price [61]. The exploit drained Zunami's zETH and UZD liquidity pools on Curve, causing the 'zStables' to depeg by 85% and 99% respectively [60]. After extracting value, the attacker reversed all price manipulation actions, ensuring artificially inflated UZD was swapped for profit.
+
+### [48] Jimbo's Protocol
+The Jimbo's Protocol attack exploited a critical vulnerability in slippage control within the JimboController contract's shift() function [62]. The attacker leveraged this weakness to manipulate token prices and drain liquidity from the protocol [63]. First, the attacker obtained a flash loan of 10,000 ETH from an external protocol [63]. Using these borrowed funds, the attacker purchased large amounts of JIMBO tokens through the protocol's ETH-JIMBO trading pair, artificially inflating JIMBO's price [63]. The attacker then deposited 100 JIMBO tokens into the JimboController contract and called the vulnerable shift() function [63]. This function, which lacked proper access controls, allowed anyone to execute arbitrary liquidity operations [63]. The shift() function triggered a rebalancing operation that moved the contract's WETH liquidity back into the pool [62]. Due to the manipulated price imbalance between WETH and JIMBO tokens, the attacker could extract more WETH than initially invested [63]. Finally, the attacker sold their remaining JIMBO tokens to drain additional WETH from the pool, repaid the flash loan, and secured approximately 4,090 ETH in profit [63]. The fundamental vulnerability was the lack of slippage protection in the shift() function, which allowed price manipulation attacks [62]. Additionally, insufficient access controls permitted any user to trigger critical rebalancing operations [63].
+
+---
+
+## Rounding Errors
+
+Rounding errors and precision loss vulnerabilities occur when mathematical operations in smart contracts produce unexpected results due to integer division, improper scaling, or inadequate handling of decimal values.
+
+### [9] Sonne Finance
+The `Sonne Finance` exploit demonstrated a critical **Rounding Error** vulnerability in Solidity's integer arithmetic [64, 65]. The attacker strategically used a flash loan to borrow VELO tokens and target an empty soVELO market with minimal `totalSupply`. By donating tokens without minting corresponding soTokens, they created a scenario that dramatically inflated the `totalCash` while artificially maintaining an extremely low token supply. This manipulation engineered an intentionally distorted `exchangeRate`, where the contract's internal accounting became fundamentally skewed. During the token redemption process, the integer division mechanism systematically rounded the calculation value of 1.999994 down to 1, discarding the fractional component. This rounding error mathematically enabled the extraction of a disproportionate number of tokens with minimal initial collateral [64].
+
+### [17] zkLend
+The zkLend exploit leveraged a fundamental rounding error and precision loss vulnerability in the protocol's smart contract [66, 67]. The attacker first initiated an extremely small deposit, followed by strategic donations via flash loans to artificially inflate the `lending_accumulator` to an abnormally high value. Since blockchain smart contracts operate exclusively with integers, mathematical operations must handle decimal values carefully [68]. The `safe_decimal_math::div()` function in zkLend's contract performed floor division, causing significant rounding errors when values were scaled down. This rounding behavior meant that when calculating burned deposit certificates during withdrawals, the system consistently burned fewer tokens than it should have. By manipulating this precision loss, the attacker executed repeated deposits and withdrawals of `wstETH`. Each transaction benefited from the rounding discrepancy, allowing the attacker to artificially inflate their token balance. The contract failed to implement minimum thresholds or accumulator bounds in its design. This deficiency, combined with inadequate precision handling in mathematical operations, transformed what would normally be negligible rounding errors into an exploitable vulnerability for substantial gain.
+
+### [20] Abracadabra Money
+The Abracadabra Money exploit occurred due to a critical precision loss vulnerability in the `CauldronV4` contracts [69]. At its core, this precision loss stemmed from a business logic flaw where the debt tracking mechanism failed to synchronize two critical values: `elastic` and `base`. The `elastic` value represents the total token amount to be repaid by borrowers, while the `base` value represents the total parts of debt held by all borrowers [70].
+
+The exploit began with the attacker obtaining a flashloan of MIM tokens from Degenbox. They then donated these tokens to the BentoBox contract, leveraging the ERC-4626 first depositor attack vector. The critical vulnerability emerged when the attacker called the `repayForAll()` function, which was designed to repay all debt and set `totalBorrow.elastic` to zero [70]. However, the function lacked proper logic to also reset `totalBorrow.base` to zero a fundamental business logic error.
+
+This discrepancy created a state where `totalBorrow.elastic` was zero while `totalBorrow.base` remained at its previous value. When these values were used in subsequent calculations, extreme precision loss occurred. The Rebase library's division operations produced rounding errors that normally would be negligible, but became catastrophic in this edge case scenario. The attacker exploited this precision deterioration by repeatedly calling `userBorrowPart()` and `repay()` functions, manipulating the `part` parameter through accumulated rounding errors [69].
+
+With each borrowing and repayment cycle, the `part` value grew exponentially due to division against a fixed `totalBorrow.base` while `totalBorrow.elastic` remained at zero. This manipulation effectively bypassed the protocol's solvency checks. The borrowed part values appeared negligible compared to the total debt parts tracked by `_totalBorrow.base`, allowing the attacker to drain liquidity from the affected cauldrons without triggering protective mechanisms [69].
+
+This vulnerability is a combination of business logic flaws and precision loss. The root cause was a flaw in the debt-tracking logic, while the attack itself leveraged precision errors in arithmetic operations, which were worsened by rounding issues in integer division.
+
+### [36] Raft Protocol
+The Raft Protocol exploit represents a precision-based vulnerability in token share calculations [71]. The attack targeted the InterestRatePositionManager contract's storedIndex variable manipulation [72]. The vulnerability originated in the protocol's implementation of a rebasing token mechanism [71]. In the rcbETH contract, the `balanceOf` function calculated token balances by multiplying native balances with a variable called `storedIndex` to determine final balances [71]. The attacker initiated the exploit by obtaining 6,000 cbETH through a flash loan [71]. After transferring 6,001 cbETH to the vulnerable contract, they triggered the `liquidate` function on a pre-created position [71]. This function call manipulated the `storedIndex` variable through a logic vulnerability, artificially inflating it to thousands of times its intended value [71]. Exploiting a rounding precision flaw in the `divUp` function of the cbETH contract's minting process, the attacker executed the `managePosition` function 60 times [71]. Each call used only 1 wei of cbETH to mint 1 wei of rcbETH-c [71]. Due to the inflated `storedIndex`, these minimal rcbETH-c tokens represented significantly higher value within the system [71]. With the artificially inflated rcbETH-c balance, the attacker leveraged the `managePosition` function again to borrow 6.7 million R tokens [72]. These tokens were swapped for various stablecoins and ultimately converted to ETH [71]. Ironically, the attack failed in its final stage. When attempting to extract profits using `delegatecall`, the attacker inadvertently sent 1,570 ETH to the zero address due to storage slot initialization issues [72]. This error resulted in the attacker gaining only 7 ETH after repaying the flash loan [71].
+
+---
+
+## Input Validation Failures
+
+Input validation failures occur when smart contracts accept and process untrusted inputs without adequate verification, leading to unexpected behaviors or security breaches.
+
+### [13] Ionic Money
+This exploit stemmed from a critical vulnerability that combined improper smart contract validation with the absence of access control over token minting. Specifically, the LBTC token contract lacked appropriate constraints, enabling the attacker to arbitrarily mint an unlimited supply of fake tokens. Moreover, Ionic Money's protocol did not implement sufficient authentication or verification mechanisms to assess the legitimacy of the LBTC contract. Despite this oversight, the protocol accepted the counterfeit LBTC tokens as valid collateral. As a result, the attacker was able to supply these illegitimate tokens to the lending pools. They subsequently borrowed real and valuable assets in exchange, causing significant financial damage to the platform [73, 74].
+
+### [18] LI.FI Protocol
+In the LI.FI protocol attack, a critical vulnerability in the smart contract's logic allowed an attacker to drain tokens from user wallets. The exploit combined two key security weaknesses in the `depositToGasZipERC20` function of `GasZipFacet.sol` [75]. The first was an access control vulnerability in the newly deployed facet. This component lacked the whitelist verification that existed in other parts of the protocol. This meant external calls weren't restricted to trusted addresses. The parameters `_swap.callTo` and `_swap.callData` were user-controlled without proper validation [76]. The second was an unchecked call return value vulnerability [77]. Low-level calls through `LibSwap.swap` were executed without validating inputs or properly handling return values. By exploiting these vulnerabilities, the attacker crafted malicious calldata with `transferFrom()` function calls. This technique enabled draining tokens from wallets that had granted infinite approvals to the LI.FI contract.
+
+### [29] DeltaPrime
+The DeltaPrime exploit demonstrated multiple critical vulnerabilities in smart contract input validation mechanisms [78]. The first vulnerability manifested in the `swapDebtParaSwap` function, which contained critical input validation flaws. This function failed to properly validate the `_repayAmount` parameter before passing it to the swap adapter [78]. The attacker leveraged this weakness to manipulate debt repayment processes. They were able to borrow 1.18 WBTC against 59.9 ETH collateral without triggering repayment verification.
+
+The second vulnerability existed in the `claimReward()` function's handling of external contract inputs. This function accepted arbitrary contract addresses as the `pair` parameter without proper validation [78]. The absence of adequate input sanitization created an exploitable attack vector. The attacker passed a malicious contract address that could manipulate the protocol's internal balance tracking.
+
+The exploitation process followed a carefully orchestrated sequence. First, the attacker initiated a flash loan to obtain the necessary capital [79]. They then deposited ETH as collateral and borrowed WBTC through the vulnerable lending mechanism. By exploiting the `swapDebtParaSwap` function, they redirected the borrowed assets to their malicious contract without proper accounting [78].
+
+In the final stage, the attacker leveraged the `claimReward()` vulnerability to manipulate system state. Their malicious contract triggered the `wrapNative()` function, converting ETH to WETH and altering internal balance records [78]. This manipulation caused the protocol to incorrectly identify the attacker's collateral as claimable rewards. This allowed them to extract their original collateral while retaining the borrowed assets.
+
+### [32] Dough Finance
+The Dough Finance attack exploited a critical lack of input validation in smart contract callbacks [80]. The vulnerability was centered in the `ConnectorDeleverageParaswap` contract, which failed to validate external calldata before execution [80]. The attack began with the attacker initiating flash loans from AAVE [80]. These borrowed funds were used to repay USDC debt on behalf of victim `DoughDsa` contracts, creating conditions necessary for the subsequent exploitation [80]. The exploit targeted Dough's deloop feature, designed to unwind leveraged positions [80]. This functionality contained a critical validation flaw in its processing of external calls. The contract blindly executed the `paraswapCallData` parameter without proper verification, allowing arbitrary code execution [80]. The attacker crafted malicious calldata consisting of two segments: the first legitimately increased USDC collateral while the second contained arbitrary external calls [80]. After debt repayment, the attacker manipulated victim contracts to withdraw all WETH collateral through these unvalidated function calls [80]. The second segment of the crafted calldata directly targeted the WETH contract, specifying `transferFrom()` as the method to execute [80]. Since the `ConnectorDeleverageParaswap` contract failed to validate this calldata before execution, it effectively gave the attacker control over users' assets [80, 81]. The attacker repeated this process on multiple `DoughDSA` contracts, ultimately stealing approximately $2.11$ million [81]. The stolen funds were later laundered through privacy tools including Tornado Cash [81]. This exploit exemplifies a classic arbitrary call vulnerability, where insufficient input validation allows attackers to execute unauthorized operations with the contract's privileges [80].
+
+### [35] Team Finance
+The Team Finance attack exploited a critical business logic vulnerability in the protocol's migration functionality [82]. The core vulnerability resided in the `migrate()` function, which failed to verify consistency between migrated and locked tokens [83]. The attack mechanism leveraged a fundamental verification flaw that allowed arbitrary token locking to bypass ownership validation [83]. By locking unrelated tokens, the attacker could migrate Uniswap V2 liquidity positions that did not belong to them [82]. The exploit execution involved creating fake token locks and extending their lock time to circumvent migration restrictions [83]. This preparation enabled the attacker to call the vulnerable migration function with manipulated parameters where the migrated tokens differed from the locked tokens [83]. The attacker specified a migration ratio of only 1%, causing the `v3Migrator.migrate()` function to burn the original LP tokens and transfer only a minimal portion to the V3 pool [83]. The remaining 99% of tokens were refunded to the caller according to the migration logic [83].
+
+### [42] Seneca Protocol
+The Seneca Protocol exploit targeted a critical vulnerability in the `Chamber contract's` external call handling mechanism [84]. The root cause was improper validation of parameters in the `performOperations()` function. This vulnerability allowed arbitrary external calls with crafted input data [85]. By setting the `actions[0]` parameter to 30, the attacker triggered the internal `call` function. This action enabled execution of malicious external calls [84]. The attacker constructed calldata designed to invoke the `transferFrom()` function on approved token contracts. These malicious calls redirected tokens from users' wallets directly to the attacker's address. Users had previously approved the Chamber contract to manage their tokens. As a result, the malicious transactions appeared legitimate to the token contracts. The exploit circumvented intended access controls effectively. The contract failed to verify the legitimacy of external call destinations and parameters [85]. The protocol lacked emergency mitigation capabilities due to improperly implemented pause functionality. The `pause()` and `unpause()` functions were declared as internal-only. This implementation prevented administrators from halting operations during the attack [85].
+
+---
+
+## Business Logic Flaws
+
+Business logic flaws occur when the implemented contract logic does not correctly model the intended business rules or contains inconsistencies in how operations should be sequenced.
+
+### [7] KyberSwap
+In the attack on KyberSwap Elastic, the logical bug that was exploited specifically related to the function `isCurrentTickInitialized`. This function is responsible for determining whether a tick is active, which is a crucial part of the pricing system and trade computation. In a mechanism similar to Uniswap v3, each tick must have a specific state for a crossing operation to be permitted. To perform this operation, the system needs to check whether there is liquidity at that tick, as this information is vital to decide whether the tick can be crossed [86].
+
+However, in this case, the bug stemmed from the fact that `isCurrentTickInitialized` mistakenly treated the liquidity resulting from reinvestment positions (which represent reinvested earnings) as active liquidity. As a result, the system incorrectly assumed that certain ticks—ones that should not have been active—had active liquidity, and therefore, crossing was deemed unnecessary. The attacker leveraged a flash loan and artificially shifted the price close to these ticks, exploiting the logical flaw to bypass the crossing mechanism and earn a significant profit without triggering defensive safeguards [87, 86].
+
+### [16] Yearn Finance
+The Yearn Finance exploit occurred due to a critical misconfiguration in the `yUSDT` contract that had remained undetected for over three years [88]. The vulnerability originated in a copy/paste error in the `yUSDT` contract code. Specifically, the Fulcrum `iUSDC` address was incorrectly used in place of the proper Fulcrum `iUSDT` address within the contract's underlying asset basket [89]. This mismatch allowed the attacker to manipulate the underlying share price calculations of `yUSDT` tokens. By exploiting this price discrepancy, the attacker was able to mint an enormous quantity (1.2 quadrillion) of `yUSDT` tokens using just 10,000 USDT as initial capital. These artificially created tokens were then swapped for legitimate stablecoins across various protocols, resulting in substantial losses before the immutable contract could be addressed.
+
+### [28] Abracadabra Money
+The Abracadabra Money incident exposed a significant business logic vulnerability in cross-protocol state management within DeFi lending systems [90]. This vulnerability manifested as state desynchronization between different contract components, creating a critical security flaw. The attack exploited how the protocol tracked collateral positions across system boundaries [91]. When users deposited assets into GMX via Abracadabra's cauldrons, the protocol employed an `OrderAgent` contract to manage these cross-protocol interactions. A flaw in this design created the opportunity for manipulation.
+
+The attacker first initiated a deposit into GMX specifically designed to fail [90]. Due to improper error handling, these tokens remained in the `OrderAgent` contract rather than returning to the depositor. This created the first state inconsistency: assets remained in the system despite the failed transaction. Next, the attacker borrowed funds against this position and deliberately pushed it into liquidation territory [91]. The critical vulnerability emerged during the self-liquidation process. The protocol correctly marked the main position record as liquidated. However, it failed to properly update all associated state variables.
+
+Specifically, the system removed the user's debt record but failed to invalidate the order data containing information about the collateral. This incomplete state update created the central business logic flaw [90]. The protocol now contained two contradictory states: the primary position record showed the position as liquidated. Yet the order system still recognized valid collateral.
+
+This desynchronization created what security researchers term phantom collateral assets that should no longer be accessible. These assets remained available in the contract's state despite their logical invalidation. In the final exploitation stage, the attacker leveraged this state inconsistency by borrowing against the supposedly liquidated position [91].
+
+---
+
+## Dangerous Delegatecall
+
+Dangerous delegatecall vulnerabilities occur when contracts use the delegatecall operation without proper validation of the target or execution context, allowing attackers to execute arbitrary code with the caller's privileges.
+
+### [41] Unizen
+The Unizen exploit leveraged an unverified external call vulnerability in the protocol's `DEX aggregation contract` [92]. This vulnerability was introduced during a contract upgrade intended to optimize gas costs [93]. The attack targeted users who had previously approved token spending limits. The attack mechanism involved exploiting the `external call vulnerability` in the upgraded contract. Multiple attackers identified weaknesses in the external call validation logic [92]. This allowed malicious contracts to execute unauthorized transactions using existing token approvals. The exploit specifically targeted the permission boundaries within the contract's `external call implementation` [93]. The attackers executed at least 27 malicious transactions across multiple addresses. Four distinct attackers were identified, utilizing different `attack contracts` [92]. The protocol's CTO confirmed the vulnerability was a "minor bug with great consequences" related to the gas optimization upgrade [93]. This characterization highlights how seemingly small implementation issues in `external call validation` can lead to significant security breaches.
+
+### [43] OKX DEX
+The OKX DEX attack exploited a Private Key Compromise vulnerability in the protocol's proxy upgrade mechanism [94]. The attacker obtained unauthorized access to the Proxy Admin Owner's private key, enabling execution of malicious contract upgrades [95]. The exploitation occurred in two phases. The attacker deployed a corrupted implementation for the DEX Proxy contract [95]. This modified implementation allowed direct invocation of the `claimTokens` function. A second similar upgrade followed at 11:53 PM UTC to continue the theft. The successful attack was possible because the compromised key held unrestricted authority to replace implementation contracts [94]. The malicious contract deliberately targeted user-approved tokens by calling `transferFrom()` on assets previously authorized to the protocol [95]. The attack leveraged the `delegatecall` pattern essential to upgradeable contracts. This mechanism allows proxy contracts to execute logic from implementation contracts while maintaining their storage context [95]. By redirecting this pattern to malicious code, the attacker effectively hijacked all token approvals granted to the protocol.
+
+---
+
+## Storage Collisions
+
+Storage collisions occur when different variables in a smart contract inadvertently share the same storage slot, allowing changes to one variable to affect the other.
+
+### [27] SIR Trading
+The SIR Trading exploit demonstrates a sophisticated attack targeting Ethereum's newly introduced transient storage feature [96]. The vulnerability originated from improper implementation of the `TSTORE` and `TLOAD` opcodes introduced in Ethereum's Dencun upgrade [97]. The attack centered on a critical storage collision vulnerability in the protocol's `uniswapV3SwapCallback` function. This function utilized transient storage slot 0x1 for dual purposes: storing both the Uniswap pool address and the token mint amount [96]. This dual usage created a security vulnerability where one value would overwrite the other in the same memory location. The attacker executed the exploit through several meticulously planned steps. First, they brute-forced a vanity address that, when interpreted as a number, equaled a mathematically precise value chosen to perfectly align with the exploit's requirements [96]. This mathematical precision was essential for the exploit. Next, they deployed malicious tokens and a UniswapV3 pool to lay the groundwork for the attack. When the protocol's `mint` function executed, it stored the legitimate Uniswap pool address in transient storage slot 0x1. However, the function subsequently overwrote this slot with the precisely calculated mint amount. The attacker then deployed their attack contract using CREATE2, ensuring its address matched their calculated value [96]. This allowed them to call `uniswapV3SwapCallback` directly. The vulnerability's exploitation hinged on the protocol's security verification. When the callback function checked transient storage slot 0x1 to verify the caller, it found the attacker's address instead of the legitimate pool address [97].
+
+---
+
+## Integer Underflow
+
+Integer underflow vulnerabilities occur when arithmetic operations produce results that are too small to be represented by the variable's type, causing unexpected wrap-around behavior.
+
+### [22] 1Inch
+In the 1inch attack, the vulnerability stemmed from an issue in the deprecated `_settleOrder` function within the Fusion v1 resolver contracts. This function, part of 1inch's older architecture, had a critical calldata corruption vulnerability caused by improper handling of the `interactionLength` parameter. Specifically, the attacker exploited an integer underflow by setting the `interactionLength` to a negative value, causing memory pointers to underflow and redirecting function calls to unintended locations. This manipulation allowed the attacker to hijack the function's logic and gain unauthorized access to contract states. By exploiting this issue, the attacker was able to initiate a series of transactions that manipulated the `_settleOrder` function's logic. The attacker padded the calldata with null bytes and used the negative value to corrupt the function's execution, bypassing security checks in place. This manipulation led to the extraction of funds from the affected resolvers. The exploit underscores the risks associated with using deprecated code in live protocols, where previously unseen vulnerabilities can resurface due to unaddressed architectural flaws. [98, 99].
+
+### [39] Velocore
+The Velocore exploit targeted a vulnerability in the `ConstantProductPool` contract's fee calculation logic [100]. The root cause was an unchecked arithmetic operation in the Balancer-style CPMM pool contract. The attack focused on two key vulnerabilities in the smart contract implementation. First, the `feeMultiplier` variable could be manipulated through direct invocation of the `velocore__execute()` function [101]. This function lacked proper caller verification, allowing the attacker to simulate large withdrawals [100]. These simulated withdrawals increased the `feeMultiplier` variable to an abnormally high value. Second, an arithmetic underflow occurred in the single-token withdrawal logic [100]. The effective fee calculation `effectiveFee1e9 = (effectiveFee1e9 * feeMultiplier) / 1e9` could exceed 100%, causing the expression `1e18 - ((1e18 - k) * effectiveFee1e9)` to underflow [100]. This transformed what should have been a liquidity withdrawal into a massive liquidity deposit. The attacker executed the exploit in three phases: manipulating the `feeMultiplier`, contracting the pool with a flash loan, and exploiting the underflow with a small single-token withdrawal [100].
+
+---
+
+## Governance Vulnerabilities
+
+Governance vulnerabilities occur when decentralized governance mechanisms are manipulated due to inadequate validation, low participation, or improper implementation.
+
+### [34] Tornado Cash
+The Tornado Cash governance attack demonstrates a sophisticated exploitation of smart contract upgrade mechanisms and governance systems [102]. The vulnerability stemmed from insufficient verification of proposal contract code and the misuse of Ethereum's low-level opcodes [103]. The attack began with the creation of a malicious governance proposal that mimicked a legitimate previous proposal [102]. This proposal included hidden malicious functionality, specifically a `selfDestruct` mechanism that was not apparent to voters [103]. The community approved this trojan proposal, believing it to be identical to the previously verified one. After approval, the attacker exploited a vulnerability in Ethereum's address derivation mechanism by combining CREATE and CREATE2 opcodes [102, 104]. This technique enabled the deployment of a contract at a deterministic address. The attacker used a deployer contract to create the initial malicious proposal, then employed `selfDestruct` to erase the approved code [102]. The critical vulnerability lay in the governance system's failure to verify that the contract code remained unchanged after approval [103]. After `selfDestruct`, the attacker redeployed different code to the same address by resetting their nonce, effectively replacing the approved contract with entirely new malicious logic [102]. This replacement contract contained logic that granted 10,000 TORN tokens to multiple attacker-controlled addresses [103]. The attacker accumulated 1.2 million governance votes against only 70,000 legitimate votes, seizing control of the entire governance system [103].
+
+### [46] Atlantis Loans
+The Atlantis Loans exploit targeted critical governance vulnerabilities in a BSC-based lending protocol [105]. The primary vulnerability resided in the `GovernorBravo` contract's proposal verification mechanism which only validated the `eta` parameter (unlock time) during proposal queuing [106]. The attacker initiated a malicious governance proposal (ID: 52) targeting the `GovernorBravo` contract [106]. This proposal aimed to designate multiple `ABep20Delegator` contracts' administrators as malicious contracts. The project's abandonment resulted in minimal community oversight, allowing the proposal to pass successfully [105]. Following a mandatory timelock period of 172,800 seconds, the malicious contract gained proxy administration rights for all protocol tokens [106]. The attacker subsequently modified the `ABep20Delegate` implementation address, replacing it with a backdoored contract (0x613cc544053812ab026d60361212cdb67b46f42f). This contract modification enabled unauthorized access to user assets through existing token approvals. Despite the protocol having no remaining user deposits due to abandonment, many users retained active approvals to the Atlantis Loans smart contracts [105].
+
+---
+
+## References
+1. [Placeholder for immunebytes2023euler]
+2. [Placeholder for slowmist2023euler]
+3. [Placeholder for rekt2023euler]
+4. [Placeholder for nomad_rekt_2022]
+5. [Placeholder for nomad2022]
+6. [Placeholder for yona2025rogue]
+7. [Placeholder for infini2025]
+8. [Placeholder for blockbasis2024]
+9. [Placeholder for halborn2024]
+10. [Placeholder for quillaudits2023]
+11. [Placeholder for cyvers2023]
+12. [Placeholder for roninrektii]
+13. [Placeholder for roninbridgeanalysis]
+14. [Placeholder for li_fi_incident_2023]
+15. [Placeholder for solidityscan_li_fi_analysis_2023]
+16. [Placeholder for slowmist_july_report_2023]
+17. [Placeholder for blockapex_shezmu_2024]
+18. [Placeholder for cyberstrategy1_truths_2024]
+19. [Placeholder for shashank2023dexible]
+20. [Placeholder for rekt2023dexible]
+21. [Placeholder for rekt2024curio]
+22. [Placeholder for behnke2024curio]
+23. [Placeholder for cryptorank2023swaprum]
+24. [Placeholder for rekt2023swaprum]
+25. [Placeholder for rektnews2022]
+26. [Placeholder for certik2022fei]
+27. [Placeholder for olympix2024]
+28. [Placeholder for solidityscan2024]
+29. [Placeholder for conic2023rekt]
+30. [Placeholder for cloberdex_solidityscan_2024]
+31. [Placeholder for cloberdex_rekt_2024]
+32. [Placeholder for rekt2023eralend]
+33. [Placeholder for cryptorank2023eralend]
+34. [Placeholder for rekt2023sturdy]
+35. [Placeholder for solidityscan2023sturdy]
+36. [Placeholder for slowmist2023orion]
+37. [Placeholder for rekt2023orion]
+38. [Placeholder for rektNews]
+39. [Placeholder for cointelegraph2023bonq]
+40. [Placeholder for hacken2023bonq]
+41. [Placeholder for rekt_woofi_2024]
+42. [Placeholder for olympix2023woofi]
+43. [Placeholder for rekt2022]
+44. [Placeholder for oklink2022inverse]
+45. [Placeholder for inversefinancebinance]
+46. [Placeholder for rekt2023hundred]
+47. [Placeholder for cointelegraph2024hundred]
+48. [Placeholder for certikLodestar2022]
+49. [Placeholder for lodestarRekt2022]
+50. [Placeholder for rekt2024gamma]
+51. [Placeholder for verichains2024gamma]
+52. [Placeholder for halborn2025kiloex]
+53. [Placeholder for rekt2025kiloex]
+54. [Placeholder for halborn_onyx_protocol_hack]
+55. [Placeholder for onyx_protocol_rekt2]
+56. [Placeholder for rekt2024rho]
+57. [Placeholder for olympix2024rho]
+58. [Placeholder for rekt2024uwulend]
+59. [Placeholder for shashank2024uwulend]
+60. [Placeholder for rekt2023zunami]
+61. [Placeholder for solidityscan2023zunami]
+62. [Placeholder for rekt_news_jimbo]
+63. [Placeholder for numen_cyber_labs_jimbo]
+64. [Placeholder for certik2024]
+65. [Placeholder for rekt2023]
+66. [Placeholder for zklend2025linkedin]
+67. [Placeholder for slowmist2025zklend]
+68. [Placeholder for zklend2025coinstats]
+69. [Placeholder for rekt2024abracadabra]
+70. [Placeholder for extropy2024cauldronv4]
+71. [Placeholder for sharkteam-analysis-raft]
+72. [Placeholder for raft-rekt]
+73. [Placeholder for linkedin2025]
+74. [Placeholder for ionicmoneyrekt]
+75. [Placeholder for solidityscan2023lifi]
+76. [Placeholder for lifi2023incident]
+77. [Placeholder for rekt2023lifi]
+78. [Placeholder for solidityscan2024deltaprime]
+79. [Placeholder for rekt2024deltaprime]
+80. [Placeholder for certik2024dough]
+81. [Placeholder for dehacker2024dough]
+82. [Placeholder for rekt2023teamfinance]
+83. [Placeholder for slowmist2023teamfinance]
+84. [Placeholder for blockapex2024seneca]
+85. [Placeholder for rekt2024seneca]
+86. [Placeholder for slowmist2023]
+87. [Placeholder for rektnews2023]
+88. [Placeholder for rekt2023yearn]
+89. [Placeholder for certik2023yearn]
+90. [Placeholder for halborn2025abracadabra]
+91. [Placeholder for rekt2025abracadabra]
+92. [Placeholder for rekt2024unizen]
+93. [Placeholder for blockbasis2024unizen]
+94. [Placeholder for rekt2023okxdex]
+95. [Placeholder for olympix2023okxattack]
+96. [Placeholder for rekt2025sirtrading]
+97. [Placeholder for cointelegraph2025sirtrading]
+98. [Placeholder for rekt_1inch_2024]
+99. [Placeholder for decurity_1inch_postmortem_2024]
+100. [Placeholder for velocore2024postmortem]
+101. [Placeholder for rekt2024velocore]
+102. [Placeholder for rekt2023tornado]
+103. [Placeholder for halborn2023tornado]
+104. [Placeholder for zan2023tornado]
+105. [Placeholder for rekt2023atlantis]
+106. [Placeholder for solidityscan2023atlantis]
