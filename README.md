@@ -2,6 +2,23 @@
 
 This repository accompanies our paper and includes the three main appendix sections for our paper. 
 
+
+---
+## List of Appendix Toy and **Real-World** Examples for Vulnerability Types Presented in the Paper
+
+
+| Vulnerability | Vulnerability | Vulnerability |
+| :--- | :--- | :--- |
+| [Dangerous Balance Inequality](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/Dangerous%2520Balance%2520Inequality.md) | [Bad Randomness](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/bad-randomness.md) | [Business Logic Error](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/business-logic-error.md) |
+| [Call Stack Depth Limit](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/call-stack_deph-limit.md) | [Delegatecall](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/delegatecall.md) | [DoS Attack Via Owner Account](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/dos-attack-via-owner-account.md) |
+| [Erroneous](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/erroneous.md) | [Ether Lost To Orphan Address](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/ether-lost-to-orphan-address.md) | [Event Ordering Bug](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/event-ordering-bug.md) |
+| [Frozen Ether](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/forzen-ether.md) | [Front Running](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/front-running.md) | [Integer](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/integer.md) |
+| [Ponzi](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/ponzi.md) | [Prodigal](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/prodigal.md) | [Reentrancy](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/reentrancy.md) |
+| [Resource Exhaustion](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/resource-exhaustion.md) | [State Reverting](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/state%2520reverting.md) | [Suicidal](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/suicidal.md) |
+| [Tx.origin](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/tx.origin.md) | [Type Casting](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/type-casting.md) | [Type Confusion](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/type-confusion.md) |
+| [Unbounded Loop In Dynamic Arrays](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/unbounded-loop-in-dynamic-arrays.md) | [Unchecked Call](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/unchecked-call.md) | [Untrustworthy Data Feeds](https://github.com/mojtaba-eshghie/SoK-Root-Cause-of-Smart-Contract-Incidents/blob/main/vulnerabilities/untrustworthy-data-feeds.md) |
+---
+
 ## Attributes of Reviewed Incidents
 
 
