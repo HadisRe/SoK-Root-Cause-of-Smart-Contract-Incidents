@@ -1,11 +1,12 @@
 # SoK: Root-Cause Classification of Smart Contract Vulnerabilities via Analysis of $1 Billion in Smart Contract Real-World Attacks
 
-This repository accompanies our paper and includes the three main appendix sections for our paper. 
+This repository accompanies our paper and includes the three main appendix sections for our paper including 1) [List of Toy and **Real-World** Examples for Vulnerability Types Presented in the Paper](#1-list-of-appendix-toy-and-real-world-examples-for-vulnerability-types-presented-in-the-paper)
 
 
 ---
-## 1. List of Appendix Toy and **Real-World** Examples for Vulnerability Types Presented in the Paper
+## 1. List of Toy and **Real-World** Examples for Vulnerability Types Presented in the Paper
 
+To view the vulnerability descripition and its examples click on each vulnerability type.
 
 | Vulnerability | Vulnerability | Vulnerability |
 | :--- | :--- | :--- |
