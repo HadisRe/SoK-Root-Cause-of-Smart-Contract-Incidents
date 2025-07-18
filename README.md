@@ -6,7 +6,7 @@ This repository accompanies our paper and includes the three main appendix secti
 3. [Summary of 50 Real-World Smart Contract Incidents](#3-summary-of-50-real-world-smart-contract-incidents)
 
 ---
-## 1. List of Toy and **Real-World** Examples for Vulnerability Types Presented in the Paper
+## 1. Toy and **Real-World** Examples for Vulnerability Types Presented in the Paper
 
 To view the vulnerability descripition and its examples click on each vulnerability type.
 
