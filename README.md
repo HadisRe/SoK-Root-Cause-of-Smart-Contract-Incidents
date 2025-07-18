@@ -1,4 +1,4 @@
-# SoK: Root-Cause Classification of Smart Contract Vulnerabilities via Analysis of $1 Billion in Smart Contract Real-World Attacks
+# SoK: Root Cause of $1 Billion Loss in Smart Contract Real-World Attacks via a Systematic Literature Review of Vulnerabilities
 
 This repository accompanies our paper and includes the three main appendix sections for our paper including:
 1. [List of Toy and Real-World Examples for Vulnerability Types Presented in the Paper](#1-list-of-toy-and-real-world-examples-for-vulnerability-types-presented-in-the-paper) 
