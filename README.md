@@ -346,6 +346,13 @@ The Atlantis Loans exploit targeted critical governance vulnerabilities in a BSC
 
 ---
 
+
+
+
+The attack on Euler Finance occurred because the donateToReserves function lacked proper access control [1]. This function did not check the account's healthFactor before execution.
+
+
+
 ## References
 
 [1] Immunebytes, "Euler Finance Hack - Mar 13, 2023: Detailed Hack Analysis," Immunebytes Blog, Mar. 2023. [Online]. Available: [https://immunebytes.com/blog/euler-finance-hack-mar-13-2023-detailed-hack-analysis/](https://immunebytes.com/blog/euler-finance-hack-mar-13-2023-detailed-hack-analysis/). [Accessed: 2025-03-29].
