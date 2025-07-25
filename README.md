@@ -347,109 +347,216 @@ The Atlantis Loans exploit targeted critical governance vulnerabilities in a BSC
 ---
 
 ## References
-1. [Placeholder for immunebytes2023euler]
-2. [Placeholder for slowmist2023euler]
-3. [Placeholder for rekt2023euler]
-4. [Placeholder for nomad_rekt_2022]
-5. [Placeholder for nomad2022]
-6. [Placeholder for yona2025rogue]
-7. [Placeholder for infini2025]
-8. [Placeholder for blockbasis2024]
-9. [Placeholder for halborn2024]
-10. [Placeholder for quillaudits2023]
-11. [Placeholder for cyvers2023]
-12. [Placeholder for roninrektii]
-13. [Placeholder for roninbridgeanalysis]
-14. [Placeholder for li_fi_incident_2023]
-15. [Placeholder for solidityscan_li_fi_analysis_2023]
-16. [Placeholder for slowmist_july_report_2023]
-17. [Placeholder for blockapex_shezmu_2024]
-18. [Placeholder for cyberstrategy1_truths_2024]
-19. [Placeholder for shashank2023dexible]
-20. [Placeholder for rekt2023dexible]
-21. [Placeholder for rekt2024curio]
-22. [Placeholder for behnke2024curio]
-23. [Placeholder for cryptorank2023swaprum]
-24. [Placeholder for rekt2023swaprum]
-25. [Placeholder for rektnews2022]
-26. [Placeholder for certik2022fei]
-27. [Placeholder for olympix2024]
-28. [Placeholder for solidityscan2024]
-29. [Placeholder for conic2023rekt]
-30. [Placeholder for cloberdex_solidityscan_2024]
-31. [Placeholder for cloberdex_rekt_2024]
-32. [Placeholder for rekt2023eralend]
-33. [Placeholder for cryptorank2023eralend]
-34. [Placeholder for rekt2023sturdy]
-35. [Placeholder for solidityscan2023sturdy]
-36. [Placeholder for slowmist2023orion]
-37. [Placeholder for rekt2023orion]
-38. [Placeholder for rektNews]
-39. [Placeholder for cointelegraph2023bonq]
-40. [Placeholder for hacken2023bonq]
-41. [Placeholder for rekt_woofi_2024]
-42. [Placeholder for olympix2023woofi]
-43. [Placeholder for rekt2022]
-44. [Placeholder for oklink2022inverse]
-45. [Placeholder for inversefinancebinance]
-46. [Placeholder for rekt2023hundred]
-47. [Placeholder for cointelegraph2024hundred]
-48. [Placeholder for certikLodestar2022]
-49. [Placeholder for lodestarRekt2022]
-50. [Placeholder for rekt2024gamma]
-51. [Placeholder for verichains2024gamma]
-52. [Placeholder for halborn2025kiloex]
-53. [Placeholder for rekt2025kiloex]
-54. [Placeholder for halborn_onyx_protocol_hack]
-55. [Placeholder for onyx_protocol_rekt2]
-56. [Placeholder for rekt2024rho]
-57. [Placeholder for olympix2024rho]
-58. [Placeholder for rekt2024uwulend]
-59. [Placeholder for shashank2024uwulend]
-60. [Placeholder for rekt2023zunami]
-61. [Placeholder for solidityscan2023zunami]
-62. [Placeholder for rekt_news_jimbo]
-63. [Placeholder for numen_cyber_labs_jimbo]
-64. [Placeholder for certik2024]
-65. [Placeholder for rekt2023]
-66. [Placeholder for zklend2025linkedin]
-67. [Placeholder for slowmist2025zklend]
-68. [Placeholder for zklend2025coinstats]
-69. [Placeholder for rekt2024abracadabra]
-70. [Placeholder for extropy2024cauldronv4]
-71. [Placeholder for sharkteam-analysis-raft]
-72. [Placeholder for raft-rekt]
-73. [Placeholder for linkedin2025]
-74. [Placeholder for ionicmoneyrekt]
-75. [Placeholder for solidityscan2023lifi]
-76. [Placeholder for lifi2023incident]
-77. [Placeholder for rekt2023lifi]
-78. [Placeholder for solidityscan2024deltaprime]
-79. [Placeholder for rekt2024deltaprime]
-80. [Placeholder for certik2024dough]
-81. [Placeholder for dehacker2024dough]
-82. [Placeholder for rekt2023teamfinance]
-83. [Placeholder for slowmist2023teamfinance]
-84. [Placeholder for blockapex2024seneca]
-85. [Placeholder for rekt2024seneca]
-86. [Placeholder for slowmist2023]
-87. [Placeholder for rektnews2023]
-88. [Placeholder for rekt2023yearn]
-89. [Placeholder for certik2023yearn]
-90. [Placeholder for halborn2025abracadabra]
-91. [Placeholder for rekt2025abracadabra]
-92. [Placeholder for rekt2024unizen]
-93. [Placeholder for blockbasis2024unizen]
-94. [Placeholder for rekt2023okxdex]
-95. [Placeholder for olympix2023okxattack]
-96. [Placeholder for rekt2025sirtrading]
-97. [Placeholder for cointelegraph2025sirtrading]
-98. [Placeholder for rekt_1inch_2024]
-99. [Placeholder for decurity_1inch_postmortem_2024]
-100. [Placeholder for velocore2024postmortem]
-101. [Placeholder for rekt2024velocore]
-102. [Placeholder for rekt2023tornado]
-103. [Placeholder for halborn2023tornado]
-104. [Placeholder for zan2023tornado]
-105. [Placeholder for rekt2023atlantis]
-106. [Placeholder for solidityscan2023atlantis]
+References
+
+[1] Immunebytes, "Euler Finance Hack - Mar 13, 2023: Detailed Hack Analysis," Immunebytes Blog, Mar. 2023. [Online]. Available: https://immunebytes.com/blog/euler-finance-hack-mar-13-2023-detailed-hack-analysis/. [Accessed: 2025-03-29].
+
+[2] SlowMist, "SlowMist: An Analysis of the Attack on Euler Finance," SlowMist Medium, Mar. 2023. [Online]. Available: https://slowmist.medium.com/slowmist-an-analysis-of-the-attack-on-euler-finance-5143abc0d5ad. [Accessed: 2025-03-29].
+
+[3] Rekt News, "Euler REKT," Rekt News, 2023. [Online]. Available: https://rekt.news/euler-rekt. [Accessed: 2025-04-15].
+
+[4] Rekt News, "Nomad Bridge - REKT," Rekt News, Aug. 2022. [Online]. Available: https://rekt.news/nomad-rekt. [Accessed: 2022-08].
+
+[5] Nomad XYZ, "Nomad Bridge Hack Root Cause Analysis," Medium, 2022. [Online]. Available: https://medium.com/nomad-xyz-blog/nomad-bridge-hack-root-cause-analysis-875ad2e5aacd. [Accessed: 2025-03-29].
+
+[6] Y. Gushiken, "Rogue Developer Suspected in Infini Neobank's $49.5M Exploit," The Shib Daily, Feb. 24, 2025. [Online]. Available: https://news.shib.io/2025/02/24/rogue-developer-suspected-in-infini-neobanks-49-5m-exploit/.
+
+[7] Rekt News, "Infini - Rekt," Rekt News, 2025. [Online]. Available: https://rekt.news/infini-rekt. [Accessed: 2025-04-13].
+
+[8] Blockbasis, "Holograph Protocol Hack: Mitigating the $14.4 Million Exploit," Blockbasis, Jun. 2024. [Online]. Available: https://www.blockbasis.com/p/holograph-protocol-hack-mitigating-the-14-4-million-exploit. [Accessed: 2024-06-19].
+
+[9] Halborn, "Explained: The Holograph Hack (June 2024)," Halborn Blog, Jun. 2024. [Online]. Available: https://www.halborn.com/blog/post/explained-the-holograph-hack-june-2024. [Accessed: 2024-06-20].
+
+[10] QuillAudits, "Decoding Deus DAO $6.5M Exploit," QuillAudits Medium, 2023. [Online]. Available: https://quillaudits.medium.com/decoding-deus-dao-6-5-million-exploit-quillaudits-588bbecec61f. [Accessed: 2025-04-15].
+
+[11] Cyvers.ai, "Deus Finance Hack: An In-Depth Analysis of the $6.5 Million Loss," Cyvers Blog, 2023. [Online]. Available: https://cyvers.ai/blog/deus-finance-hack-an-in-depth-analysis-of-the-6-5-million-loss. [Accessed: 2025-04-15].
+
+[12] Rekt News, "RoninNetworkRektII," Rekt News, Aug. 7, 2024. [Online]. Available: https://rekt.news/roninnetwork-rektII. [Accessed: 2025-04-17].
+
+[13] Shashank, "RoninBridgeHack Analysis," SolidityScan Blog, Aug. 13, 2024. [Online]. Available: https://blog.solidityscan.com/ronin-bridge-hack-analysis-d8f64b8fe683. [Accessed: 2025-04-17].
+
+[14] LI.FI, "Incident Report - 16th July," LI.FI Knowledge Hub, 2023. [Online]. Available: https://li.fi/knowledge-hub/incident-report-16th-july/. [Accessed: 2025-04-17].
+
+[15] SolidityScan, "LI.FI Hack Analysis," SolidityScan Blog, 2023. [Online]. Available: https://blog.solidityscan.com/li-fi-hack-analysis-521388128d22. [Accessed: 2025-04-17].
+
+[16] SlowMist, "SlowMist Monthly Security Report: Total Losses for July Approx. $279 Million," SlowMist Medium, 2023. [Online]. Available: https://slowmist.medium.com/slowmist-monthly-security-report-total-losses-for-july-approximate-279-million-2bb63973d4bf. [Accessed: 2025-04-17].
+
+[17] BlockApex, "Shezmu Hack Analysis," BlockApex Medium, 2024. [Online]. Available: https://blockapex.medium.com/shezmu-hack-analysis-32414e67c7a0. [Accessed: 2025-04-18].
+
+[18] CyberStrategy1, "Crypto Security Truths — Issue #13," Medium, 2024. [Online]. Available: https://cyberstrategy1.medium.com/crypto-security-truths-issue-13-098b78916272. [Accessed: 2025-04-18].
+
+[19] Shashank, "Dexible Hack Analysis — Never Blindly Trust Smart Contracts," SolidityScan Blog, 2023. [Online]. Available: https://blog.solidityscan.com/dexible-hack-analysis-never-blindly-trust-smart-contracts-c2aee7943c1a. [Accessed: 2025-04-23].
+
+[20] Rekt News, "Dexible - Rekt," Rekt News, 2023. [Online]. Available: https://rekt.news/dexible-rekt. [Accessed: 2025-04-23].
+
+[21] REKT, "Curio – Rekt," Rekt News, Mar. 26, 2024. [Online]. Available: https://rekt.news/curio-rekt. [Accessed: 2025-04-28].
+
+[22] R. Behnke, "Explained: The Curio Hack (March 2024)," Halborn Blog, Apr. 1, 2024. [Online]. Available: https://www.halborn.com/blog/post/explained-the-curio-hack-march-2024. [Accessed: 2025-04-28].
+
+[23] CryptoRank, "The Swaprum Incident: Audited DeFi Protocol Dupes Investors Out $3M," CryptoRank News, 2023. [Online]. Available: https://cryptorank.io/ru/news/feed/cdce4-the-swaprum-incident-audited-defi-protocol-dupes-investors-out-3m. [Accessed: 2023].
+
+[24] Rekt News, "Swaprum Rekt," Rekt News, 2023. [Online]. Available: https://rekt.news/swaprum-rekt. [Accessed: 2023].
+
+[25] REKT News, "Fei Rari - REKT," Rekt News, May 2022. [Online]. Available: https://rekt.news/fei-rari-rekt. [Accessed: 2025-03-29].
+
+[26] CertiK, "Fei Protocol Incident Analysis," CertiK Medium, 2022. [Online]. Available: https://certik.medium.com/fei-protocol-incident-analysis-8527440696cc. [Accessed: 2025-04-13].
+
+[27] Olympix, "Penpie Exploit: A Technical Post-Mortem Analysis," Olympix Medium, Sep. 2024. [Online]. Available: https://olympixai.medium.com/penpie-exploit-a-technical-post-mortem-analysis-db25af537cc1. [Accessed: 2024-09-06].
+
+[28] SolidityScan, "Penpie Hack Analysis," SolidityScan Blog, Sep. 2024. [Online]. Available: https://blog.solidityscan.com/penpie-hack-analysis-29034a6f2a61. [Accessed: 2024-09-05].
+
+[29] REKT News, "Conic Finance - REKT," Rekt News, Jul. 2023. [Online]. Available: https://rekt.news/conic-finance-rekt.
+
+[30] SolidityScan Team, "CloberDEX Liquidity Vault Hack Analysis," SolidityScan Blog, 2024. [Online]. Available: https://blog.solidityscan.com/cloberdex-liquidity-vault-hack-analysis-f22eb960aa6f. [Accessed: 2025-04-25].
+
+[31] REKT News, "CloberDEX - REKT," Rekt News, 2024. [Online]. Available: https://rekt.news/cloberdex-rekt. [Accessed: 2025-04-25].
+
+[32] Rekt News, "EraLend REKT: Read-only Re-entrancy Exploit Steals $3.4M," Rekt News, 2023. [Online]. Available: https://rekt.news/eralend-rekt. [Accessed: 2025-04-29].
+
+[33] Bitcoinist, "EraLend Exploit: Hackers Steal $3.4 Million From zkSync Lending Protocol," CryptoRank News, 2023. [Online]. Available: https://cryptorank.io/news/feed/ad957-eralend-exploit-hackers-steal-3-4-million-dollars. [Accessed: 2025-04-29].
+
+[34] Rekt News, "Sturdy - Rekt," Rekt News, 2023. [Online]. Available: https://rekt.news/sturdy-rekt. [Accessed: 2025-05-04].
+
+[35] SolidityScan Team, "Sturdy Finance Hack Analysis," SolidityScan Blog, 2023. [Online]. Available: https://blog.solidityscan.com/sturdy-finance-hack-analysis-bd8605cd2956. [Accessed: 2025-05-04].
+
+[36] SlowMist, "An Analysis of the Attack on Orion Protocol," SlowMist Medium, 2023. [Online]. Available: https://slowmist.medium.com/an-analysis-of-the-attack-on-orion-protocol-c7aef70aff83. [Accessed: 2025-05-04].
+
+[37] Rekt News, "Orion Protocol – Rekt," Rekt News, 2023. [Online]. Available: https://rekt.news/orion-protocol-rekt. [Accessed: 2025-05-04].
+
+[38] Rekt News, "Rekt News - DeFi Investigations and Analysis," Rekt News, 2025. [Online]. Available: https://rekt.news/bonq-rekt. [Accessed: 2025-03-29].
+
+[39] T. Wright, "BonqDAO protocol exploiter steals $120M after oracle manipulation," Cointelegraph, Feb. 2023. [Online]. Available: https://cointelegraph.com/news/bonqdao-protocol-suffers-120m-loss-after-oracle-hack. [Accessed: 2025-03-29].
+
+[40] Hacken, "The BonqDAO Price Oracle Hack Explained," Hacken Insights, Feb. 2023. [Online]. Available: https://hacken.io/insights/bonqdao-hack/. [Accessed: 2025-03-29].
+
+[41] Rekt News, "Woofi - Rekt," Rekt News, Mar. 6, 2024. [Online]. Available: https://rekt.news/woo-rekt. [Accessed: 2025-04-15].
+
+[42] Olympix, "Unpacking the WOOFi Swap Exploit," Olympix Medium, 2023. [Online]. Available: https://olympixai.medium.com/unpacking-the-woofi-swap-exploit-ae6f172fe736. [Accessed: 2025-04-15].
+
+[43] REKT, "Inverse Finance - REKT," Rekt News, Apr. 2022. [Online]. Available: https://rekt.news/inverse-finance-rekt/. [Accessed: 2022-04-03].
+
+[44] OKLink Academy, "HOT: Inverse Finance Loses Over $15M in Oracle Manipulation," OKLink, Jul. 12, 2022. [Online]. Available: https://www.oklink.com/academy/en/2022/07/12/hot-inverse-finance-loses-over-15m-in-oracle-manipulation?utm_source=chatgpt.com. [Accessed: 2025-04-14].
+
+[45] Cycle Trading, "Inverse Finance: A way to survive from the brink of death?," Binance Square, 2023. [Online]. Available: https://www.binance.com/en/square/post/746243. [Accessed: 2025-04-15].
+
+[46] Rekt News, "Hundred Finance - REKT 2," Rekt News, 2023. [Online]. Available: https://rekt.news/hundred-rekt2. [Accessed: 2025-04-19].
+
+[47] Cointelegraph, "Hundred Finance hacker moves assets year after $7M exploit," Cointelegraph, 2024. [Online]. Available: https://cointelegraph.com/news/hundred-finance-hacker-moves-assets-year-after-exploit. [Accessed: 2025-04-19].
+
+[48] CertiK, "Lodestar Finance Incident Analysis," CertiK Blog, 2022. [Online]. Available: https://www.certik.com/resources/blog/TqTyq4vYHl8JzS7zyJye9-lodestar-finance-incident-analysis. [Accessed: 2025-04-18].
+
+[49] Rekt News, "Lodestar Finance – Rekt," Rekt News, 2022. [Online]. Available: https://rekt.news/lodestar-rekt. [Accessed: 2025-04-18].
+
+[50] REKT News, "Gamma Strategies - Rekt," Rekt News, 2024. [Online]. Available: https://rekt.news/gamma-strategies-rekt. [Accessed: 2025-04-18].
+
+[51] Verichains, "Gamma Protocol Exploit Analysis," Verichains Blog, 2024. [Online]. Available: https://blog.verichains.io/p/gamma-protocol-exploit-analysis. [Accessed: 2025-04-18].
+
+[52] Halborn Security, "Explained: The KiloEx Hack (April 2025)," Halborn Blog, 2025. [Online]. Available: https://www.halborn.com/blog/post/explained-the-kiloex-hack-april-2025. [Accessed: 2025-04-18].
+
+[53] Rekt News, "KiloEx – Rekt," Rekt News, 2025. [Online]. Available: https://rekt.news/kiloex-rekt. [Accessed: 2025-04-18].
+
+[54] Halborn, "Explained: The Onyx Protocol Hack (September 2024)," Halborn Blog, 2024. [Online]. Available: https://www.halborn.com/blog/post/explained-the-onyx-protocol-hack-september-2024?utm_source=chatgpt.com. [Accessed: 2024-04-23].
+
+[55] REKT, "Onyx Protocol - Rekt II," Rekt News, 2024. [Online]. Available: https://rekt.news/onyx-protocol-rekt2. [Accessed: 2024-04-23].
+
+[56] REKT, "Rho Market – Rekt," Rekt News, Jul. 19, 2024. [Online]. Available: https://rekt.news/rho-market-rekt. [Accessed: 2025-04-28].
+
+[57] Olympix, "Rho Markets on Scroll Exploit Analysis," Olympix Medium, Jul. 22, 2024. [Online]. Available: https://olympixai.medium.com/rho-markets-on-scroll-exploit-analysis-965991270f56. [Accessed: 2025-04-28].
+
+[58] REKT, "Uwulend – Rekt," Rekt News, Jun. 10, 2024. [Online]. Available: https://rekt.news/uwulend-rekt. [Accessed: 2025-04-28].
+
+[59] Shashank, "Uwulend Hack Analysis," SolidityScan Blog, Jun. 30, 2024. [Online]. Available: https://blog.solidityscan.com/uwulend-hack-analysis-77eb9181a717. [Accessed: 2025-04-28].
+
+[60] REKT News, "Zunami Protocol - REKT," Rekt News, 2023. [Online]. Available: https://rekt.news/zunami-protocol-rekt. [Accessed: 2025-04-30].
+
+[61] SolidityScan, "Zunami Protocol Hack Analysis – Price Manipulation Exploit," SolidityScan Blog, 2023. [Online]. Available: https://blog.solidityscan.com/zunami-protocol-hack-analysis-e95981976e11. [Accessed: 2025-04-30].
+
+[62] Rekt, "Jimbos Protocol $7.5 Million Hack," Rekt News, 2023. [Online]. Available: https://rekt.news/jimbo-rekt. [Accessed: 2023-05-29].
+
+[63] Numen Cyber Labs, "A Detailed Analysis of Arbitrum-based Jimbos Protocol's $7.5 Million Hack," Numen Cyber Labs Medium, 2023. [Online]. Available: https://medium.com/numen-cyber-labs/a-detailed-analysis-of-arbitrum-based-jimbos-protocol-7-5-million-hack-36af84faee2. [Accessed: 2023-05-29].
+
+[64] CertiK, "Sonne Finance Incident Analysis," Rekt News, May 2024. [Online]. Available: https://rekt.news/sonne-finance-rekt. [Accessed: 2024-05-15].
+
+[65] REKT News, "Curve, Vyper - REKT," Rekt News, Jul. 2023. [Online]. Available: https://rekt.news/curve-vyper-rekt/. [Accessed: 2025-03-29].
+
+[66] P. Shukla, "ZkLend Hack Analysis," LinkedIn, 2025. [Online]. Available: https://www.linkedin.com/pulse/zklend-hack-analysis-piyush-shukla-jsxzf/. [Accessed: 2025-04-18].
+
+[67] SlowMist, "In-depth Analysis of zkLend Hack Linked to EraLend Hack," SlowMist Medium, 2025. [Online]. Available: https://slowmist.medium.com/in-depth-analysis-of-zklend-hack-linked-to-eralend-hack-fba4af9b66ef. [Accessed: 2025-04-18].
+
+[68] CoinStats News, "ZkLend Exploit Backfires as Hacker Loses $96 Million in ETH to Phishing Scam," CoinStats, 2025. [Online]. Available: https://coinstats.app/news/8628b254c4ef1cf1bb1d4f92ac3cc586cd17916f04ee8f2ed33b3c2a30d640bf_ZkLend-exploit-backfires-as-hacker-loses-96-million-in-ETH-to-phishing-scam/. [Accessed: 2025-04-18].
+
+[69] Rekt News, "Abracadabra - REKT," Rekt News, 2025. [Online]. Available: https://rekt.news/abra-rekt. [Accessed: 2025-04-19].
+
+[70] Extropy IO, "Breaking Down the $6.5M Abracadabra Money Hack: A Detailed Analysis of the Cauldron V4 Exploit," Extropy IO Medium, 2024. [Online]. Available: https://extropy-io.medium.com/breaking-down-the-6-5m-abracadabra-money-hack-a-detailed-analysis-of-the-cauldron-v4-exploit-44100da10896. [Accessed: 2025-04-19].
+
+[71] SharkTeam, "SharkTeam Analysis of the Principles of RAFT Attack Incident," SharkTeam Medium, 2023. [Online]. Available: https://medium.com/@sharkteam/sharkteam-analysis-of-the-principles-of-raft-attack-incident-814127d626bd. [Accessed: 2025-04-25].
+
+[72] Rekt News, "RAFT Rekt," Rekt News, 2023. [Online]. Available: https://rekt.news/raft-rekt. [Accessed: 2025-04-25].
+
+[73] P. Shukla, "Ionic Money $8.5 million Exploit: Hack Analysis," LinkedIn, Feb. 2025. [Online]. Available: https://www.linkedin.com/pulse/ionic-money-85-million-exploit-hack-analysis-piyush-shukla-7j8if. [Accessed: 2025-02-09].
+
+[74] Rekt News, "Ionic Money - Rekt," Rekt News, Feb. 6, 2025. [Online]. Available: https://rekt.news/ionic-money-rekt. [Accessed: 2025-04-17].
+
+[75] SolidityScan, "Li.Fi Hack Analysis - How a Logic Vulnerability Caused a $10M Hack," SolidityScan Blog, 2023. [Online]. Available: https://blog.solidityscan.com/li-fi-hack-analysis-521388128d22. [Accessed: 2025-04-18].
+
+[76] LI.FI Team, "Incident Report – 16th July 2023," LI.FI Knowledge Hub, 2023. [Online]. Available: https://li.fi/knowledge-hub/incident-report-16th-july/. [Accessed: 2025-04-18].
+
+[77] Rekt News, "LI.FI Jumper - Rekt," Rekt News, 2023. [Online]. Available: https://rekt.news/lifi-jumper-rekt. [Accessed: 2025-04-18].
+
+[78] SolidityScan, "DeltaPrime Hack Analysis," SolidityScan Blog, Nov. 2024. [Online]. Available: https://blog.solidityscan.com/deltaprime-hack-analysis-44edb9b22567. [Accessed: 2025-04-22].
+
+[79] REKT, "DeltaPrime - Rekt II," Rekt News, Nov. 2024. [Online]. Available: https://rekt.news/deltaprime-rekt2. [Accessed: 2025-04-22].
+
+[80] CertiK, "Dough Finance Incident Analysis," CertiK Blog, 2024. [Online]. Available: https://www.certik.com/resources/blog/3SMOuGMCSttY4pQW6I49W2-dough-finance-incident-analysis. [Accessed: 2025-04-22].
+
+[81] DeHacker Security, "Dough Finance Incident Analysis," DeHacker Security Medium, 2024. [Online]. Available: https://medium.com/@dehacker_security/dough-finance-incident-analysis-04db15c22552. [Accessed: 2025-04-22].
+
+[82] REKT, "Team Finance - REKT," REKT News, Oct. 2023. [Online]. Available: https://rekt.news/teamfinance-rekt.
+
+[83] SlowMist, "Analysis & Review of Team Finance Exploit," SlowMist Medium, Oct. 2023. [Online]. Available: https://slowmist.medium.com/analysis-review-of-team-finance-exploit-f439c2f63e2.
+
+[84] BlockApex, "Seneca Protocol Hack Analysis," BlockApex Medium, 2024. [Online]. Available: https://blockapex.medium.com/seneca-protocol-hack-analysis-546f3bcc1040. [Accessed: 2025-04-30].
+
+[85] Rekt, "Seneca Protocol - $6.4M Exploit," Rekt News, 2024. [Online]. Available: https://rekt.news/seneca-protocol-rekt. [Accessed: 2025-04-30].
+
+[86] SlowMist, "A Deep Dive Into the KyberSwap Hack," SlowMist Medium, Nov. 2023. [Online]. Available: https://slowmist.medium.com/a-deep-dive-into-the-kyberswap-hack-3e13f3305d3a. [Accessed: 2023-11-27].
+
+[87] REKT, "KyberSwap - REKT," Rekt News, Nov. 2023. [Online]. Available: https://rekt.news/kyberswap-rekt. [Accessed: 2023-11-23].
+
+[88] Rekt, "Yearn: Re-Rekt," Rekt News, 2023. [Online]. Available: https://rekt.news/yearn2-rekt. [Accessed: 2025-04-17].
+
+[89] CertiK, "Misconfigured Earnings: Yearn Finance Exploit Explained," CertiK Blog, 2023. [Online]. Available: https://www.certik.com/resources/blog/40AqeRsWil5Hof9etrvjH2-earnings-misconfigured-yearn-finance-exploit-explained. [Accessed: 2025-04-17].
+
+[90] Halborn Security, "Explained: The Abracadabra Money Hack (March 2025)," Halborn Blog, 2025. [Online]. Available: https://www.halborn.com/blog/post/explained-the-abracadabra-money-hack-march-2025. [Accessed: 2025-04-22].
+
+[91] Rekt News, "Abracadabra - REKT," Rekt News, 2025. [Online]. Available: https://rekt.news/abracadabra-rekt2. [Accessed: 2025-04-22].
+
+[92] Rekt News, "Unizen Rekt," Rekt News, 2024. [Online]. Available: https://rekt.news/unizen-rekt. [Accessed: 2025-04-29].
+
+[93] Blockbasis, "Unizen: Navigating the $2.1M Security Breach," Blockbasis, 2024. [Online]. Available: https://blockbasis.com/p/unizen-navigating-21m-security-breach. [Accessed: 2025-04-29].
+
+[94] Rekt News, "OKX DEX - REKT," Rekt News, 2023. [Online]. Available: https://rekt.news/okx-dex-rekt. [Accessed: 2025-04-30].
+
+[95] Olympix AI, "Unmasking the Malicious OKX DEX Upgrade," Olympix AI Medium, 2023. [Online]. Available: https://olympixai.medium.com/unmasking-the-malicious-okx-dex-upgrade-f6912449f963. [Accessed: 2025-04-30].
+
+[96] Rekt News, "SIR.trading - Rekt," Rekt News, Mar. 2025. [Online]. Available: https://rekt.news/sirtrading-rekt. [Accessed: 2025-04-18].
+
+[97] Cointelegraph, "SIR.trading begs hacker to return $255K or 'no chance for us to survive'," TradingView, Mar. 2025. [Online]. Available: https://www.tradingview.com/news/cointelegraph:6a2330d53094b:0-sir-trading-begs-hacker-to-return-255k-or-no-chance-for-us-to-survive/. [Accessed: 2025-04-18].
+
+[98] REKT, "1inch – REKT," Rekt News, 2024. [Online]. Available: https://rekt.news/1inch-rekt. [Accessed: 2025-04-18].
+
+[99] Decurity, "Yul Calldata Corruption: 1inch Postmortem," Decurity Blog, 2024. [Online]. Available: https://blog.decurity.io/yul-calldata-corruption-1inch-postmortem-a7ea7a53bfd9. [Accessed: 2025-04-18].
+
+[100] VELOCORE, "Velocore Incident Post-Mortem," Velocore Medium, Jun. 2, 2024. [Online]. Available: https://velocorexyz.medium.com/velocore-incident-post-mortem-6197020ec3e9. [Accessed: 2025-04-28].
+
+[101] REKT, "Velocore – Rekt," Rekt News, Jun. 3, 2024. [Online]. Available: https://rekt.news/velocore-rekt. [Accessed: 2025-04-28].
+
+[102] Rekt News, "Tornado Cash Governance Attack," Rekt News, 2023. [Online]. Available: https://rekt.news/tornado-gov-rekt. [Accessed: 2025-04-25].
+
+[103] R. Behnke, "Explained: The Tornado Cash Hack (May 2023)," Halborn Blog, 2023. [Online]. Available: https://www.halborn.com/blog/post/explained-the-tornado-cash-hack-may-2023. [Accessed: 2025-04-25].
+
+[104] ZAN, "Unpacking the Tornado Cash Governance Attack," ZAN Medium, May 2023. [Online]. Available: https://medium.com/@zan.top/unpacking-the-tornado-cash-governance-attack-15b40691ca2e.
+
+[105] Rekt News, "Atlantis Loans - Rekt," Rekt News, 2023. [Online]. Available: https://rekt.news/atlantis-loans-rekt. [Accessed: 2025-04-29].
+
+[106] Shashank, "Atlantis Loans Hack Analysis," SolidityScan Blog, 2023. [Online]. Available: https://blog.solidityscan.com/atlantis-loans-hack-analysis-7f3fb2e295e0. [Accessed: 2025-04-29].
