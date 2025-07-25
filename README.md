@@ -349,8 +349,7 @@ The Atlantis Loans exploit targeted critical governance vulnerabilities in a BSC
 
 
 
-The attack on Euler Finance occurred because the donateToReserves function lacked proper access control [1]. This function did not check the account's healthFactor before execution.
-
+The attack on Euler Finance occurred because the donateToReserves function lacked proper access control [[1]](#1). This function did not check the account's healthFactor before execution.
 
 
 ## References
