@@ -1,4 +1,3 @@
-# Accompanying Repository for `SoK: Root Cause of $1 Billion Loss in Smart Contract Real-World Attacks via a Systematic Literature Review of Vulnerabilities`
 [SoK: Root Cause of $1 Billion Loss in Smart Contract Real-World Attacks via a Systematic Literature Review of Vulnerabilities](https://arxiv.org/abs/2507.20175)
 
 This repository accompanies our paper and includes the three main appendix sections for our paper including:
